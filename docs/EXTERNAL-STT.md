@@ -2,7 +2,7 @@
 
 可使用獨立的 `@goodandready/dsh-voice`，不必把它的模型、辨識實作或供應商設定併入 Discord。
 
-1. 安裝並啟用原 dsh-voice、`dsh-speech-bridge` 及 DSH 語音辨識服務。
+1. 安裝並啟用原 dsh-voice、DSH 聲音工坊（`dsh-sound-atelier` 1.0.2 以上，橋接已內建，「語音交付」頁的「提供 dsh-voice 作為語音辨識來源」要開著）及 DSH 語音辨識服務。
 2. 在原 dsh-voice 設定「聽寫」辨識鏈、語言及金鑰／本機服務。
 3. 在 Discord 的「DSH 語音辨識服務 ID」填入 `external:dsh-voice`。
 

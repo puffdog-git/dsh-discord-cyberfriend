@@ -1569,7 +1569,7 @@ export async function apply(ctx, userConfig = {}) {
 
   // --------------------------------------------------------------- 對外服務 ---
   globalThis.__DSH_DISCORD_PYSELF_LAB__ = {
-    version: '1.0.0',
+    version: '1.0.1',
     registerMusicProvider: (provider) => musicProviders.register(provider),
     musicProviders: () => musicProviders.catalog(),
     culture: {

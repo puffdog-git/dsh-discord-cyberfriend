@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1 — 2026-11-15
+
+- 「其他通訊插件語音交付」與外部 dsh-voice 辨識的說明改為指向 DSH 聲音工坊（`dsh-sound-atelier` 1.0.2 起內建），不再要求安裝沒有發布的 `dsh-speech-bridge`。
+
 ## 1.0.0 — 2026-11-15
 
 - 整理 Discord-cyberfriend 的獨立安裝、資料保護、開發及發布前文件。

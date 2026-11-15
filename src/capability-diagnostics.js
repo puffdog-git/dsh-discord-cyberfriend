@@ -569,7 +569,7 @@ export class CapabilityDiagnostics {
     });
     add('delivery.bridge', 'delivery', '其他通訊插件語音交付', {
       section: 'voice',
-      packages: ['dsh-speech-bridge'],
+      packages: ['dsh-sound-atelier'],
       registered: !!toolFor(this.ctx, 'send_speech_reply'),
       state: toolFor(this.ctx, 'send_speech_reply') ? 'unknown' : 'blocked',
       issue: toolFor(this.ctx, 'send_speech_reply') ? null : diagnoseCapabilityFailure('交付工具未註冊'),

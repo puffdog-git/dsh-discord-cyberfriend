@@ -1,7 +1,7 @@
 {
   "schema": "discord.capability-contract-baseline",
   "version": 1,
-  "at": 1794732959035,
+  "at": 1794739359161,
   "groups": [
     "tts",
     "stt",
@@ -30,7 +30,7 @@
     },
     {
       "path": "./capability-diagnostics.js",
-      "hash": "2d7dbb10eeae3e4665587d755d184486706001cce62116d0302d3ffbffe66d6c"
+      "hash": "730792b5bb19bbca0f5871f31f02d7b7ea4eb9f88aec919e3fd85cf2052614cf"
     },
     {
       "path": "./channel-actions.js",
@@ -142,7 +142,7 @@
     },
     {
       "path": "./index.js",
-      "hash": "38039293b377bc6d5c16e8f6edc3675beb845411086eef0755be47ccb45753d3"
+      "hash": "fafb07c34d5826b4013e0311bed5deea8740b774f5a1e587a13bf82cfb326a7b"
     },
     {
       "path": "./knowledge-tools.js",
@@ -429,5 +429,5 @@
       "hash": "ac5192f5a698e7e0ab70a6797dd02c6b296c0f8ce527970212145d2f6264b07f"
     }
   ],
-  "digest": "2e3923a0d189771e164609ecdbfdfe265c2e5234844579b5b3700267ad481799"
+  "digest": "7630e023523367a3872d54c61ea0d27a703a450d8aef8230418e26a3004fb14c"
 }
