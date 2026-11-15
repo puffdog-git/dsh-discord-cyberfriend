@@ -80,8 +80,9 @@ export class HubLogger {
       level,
       event,
       summary: truncate(redactDiagnostic(summary, [...this.secretValues]), 300),
-      data: data ? this.scrub(data) : undefined,
     };
+    // 沒有細節時不放 data 鍵：值為 undefined 的鍵無法無損轉成 JSON，會讓工具回傳被宿主拒絕。
+    if (data) entry.data = this.scrub(data);
     this.entries.push(entry);
     this.trim();
     this.emit(entry);
@@ -114,6 +115,7 @@ export class HubLogger {
     if (Array.isArray(value)) return value.slice(0, 20).map((item) => this.scrub(item, depth + 1));
     const out = {};
     for (const [key, child] of Object.entries(value)) {
+      if (child === undefined) continue;
       if (/token|apikey|api_key|secret|password|authorization/i.test(key)) {
         out[key] = typeof child === 'string' && child ? '***' : child;
         continue;

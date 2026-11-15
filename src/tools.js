@@ -20,6 +20,15 @@ function ok(data) {
   return { ok: true, ...data };
 }
 
+/**
+ * 宿主要求工具回傳值能無損轉成 JSON：值為 undefined 的鍵、NaN／Infinity、BigInt 都會被拒絕
+ * （invalid output: value is not lossless JSON）。回傳前統一整理一次。
+ */
+export function losslessJson(value) {
+  const text = JSON.stringify(value, (_key, item) => (typeof item === 'bigint' ? String(item) : item));
+  return text === undefined ? null : JSON.parse(text);
+}
+
 function fail(error) {
   return { ok: false, error: truncate(String(error?.message || error || '未知錯誤'), 400) };
 }
@@ -445,5 +454,6 @@ export function createToolDefinitions(deps) {
   return definitions.map((definition) => ({
     ...definition,
     name: `discord_cyberfriend_${definition.name.replace(/^discord_(?:cyberfriend_|pyself_lab_)?/, '')}`,
+    execute: async (...args) => losslessJson(await definition.execute(...args)),
   }));
 }

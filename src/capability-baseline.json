@@ -1,7 +1,7 @@
 {
   "schema": "discord.capability-contract-baseline",
   "version": 1,
-  "at": 1794749853214,
+  "at": 1794752514881,
   "groups": [
     "tts",
     "stt",
@@ -13,7 +13,7 @@
     "mood",
     "voiceDelivery"
   ],
-  "tests": 575,
+  "tests": 578,
   "scope": "Only this plugin adapter contracts with isolated fixtures; no external account or backend certification.",
   "files": [
     {
@@ -142,7 +142,7 @@
     },
     {
       "path": "./index.js",
-      "hash": "a3df454c6a758bb2adfa7594d8a90411a0cfb157e8ed652748bbb8c2d869fe8d"
+      "hash": "6131bd2f6fe893646815201fefa2da8c3f4cfe489e1326340d3a6d7fab82c40a"
     },
     {
       "path": "./knowledge-tools.js",
@@ -158,7 +158,7 @@
     },
     {
       "path": "./logger.js",
-      "hash": "dac3a1e2ab20cdeccd97f1847e9233c6244e1b495240220bbf52b9908607bdc9"
+      "hash": "63076d842f77873b70fbe90f0352838a20ae617bed62e98effd7d4e8a616bf41"
     },
     {
       "path": "./media-culture.js",
@@ -278,7 +278,7 @@
     },
     {
       "path": "./tools.js",
-      "hash": "84f39c1d16723e23dc5d0a9a5581923f33236fae4defa3750dd466a3b210abcb"
+      "hash": "460dfb8ac431259dc37c40b8ff59e96a4344b9ffb2043bafa3fd276e6841cf50"
     },
     {
       "path": "./transcript-normalization.js",
@@ -433,5 +433,5 @@
       "hash": "ac5192f5a698e7e0ab70a6797dd02c6b296c0f8ce527970212145d2f6264b07f"
     }
   ],
-  "digest": "8f41eba2a08d888d4dd703213bdf90f30bfb1cd2d2f725b726e5ac5b4cedd4d1"
+  "digest": "ef3a441d6c1eb2c8f89ee69389330503fb3dbc94acc0806643544d77f69588cc"
 }
