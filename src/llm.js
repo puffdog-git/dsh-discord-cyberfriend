@@ -57,7 +57,8 @@ export function listHostProviders(ctx) {
 export function resolveRoute(ctx, config = {}) {
   const providers = listHostProviders(ctx);
   const ids = providers.map((p) => p.id);
-  const fallbackProvider = ids[0] || 'deepseek-account';
+  // 設定的服務不存在時：優先用 DSH 自帶的 DeepSeek 帳號（不必另外填金鑰），再來才是清單第一個。
+  const fallbackProvider = ids.includes('deepseek-account') ? 'deepseek-account' : ids[0] || 'deepseek-account';
   if (config.llmMode === 'custom') return null;
   if (config.llmMode === 'subscriptions') {
     const provider =

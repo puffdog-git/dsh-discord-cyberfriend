@@ -1110,15 +1110,15 @@ export const FIELDS = [
     key: 'subscriptionProvider',
     section: 'llm',
     type: 'string',
-    default: 'antigravity',
+    default: 'deepseek-account',
   },
   {
     key: 'subscriptionModel',
     section: 'llm',
     type: 'string',
-    default: 'gemini-2.5-flash',
+    default: 'deepseek-v4-pro',
     label: '訂閱模型',
-    help: '例如 gemini-2.5-flash / gpt-5.1 / claude-sonnet-4。',
+    help: '例如 deepseek-v4-pro。名稱要和你的 DSH 帳號實際可用的模型一致，存檔後可以按「測試模型」確認。',
   },
   {
     key: 'customLlmApiKey',

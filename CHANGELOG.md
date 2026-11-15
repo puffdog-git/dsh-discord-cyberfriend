@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 — 2026-11-15
+
+- 「模型」分區的預設值與建議清單改成 DSH 自帶的 DeepSeek 帳號：訂閱服務預設 `deepseek-account`、訂閱模型預設 `deepseek-v4-pro`（原本是別的平台的名稱）。已經存過設定的人不受影響。
+- 設定的訂閱服務不存在時，改為優先使用 `deepseek-account`，不再一律取清單第一個。
+
 ## 1.0.1 — 2026-11-15
 
 - 「其他通訊插件語音交付」與外部 dsh-voice 辨識的說明改為指向 DSH 聲音工坊（`dsh-sound-atelier` 1.0.2 起內建），不再要求安裝沒有發布的 `dsh-speech-bridge`。

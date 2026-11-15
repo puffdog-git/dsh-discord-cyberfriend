@@ -122,10 +122,12 @@ export const FIELD_TEXT = {
   botActivityText: { help: '例如「陪你聊天」。留空表示不顯示活動。' },
 
   // ---- 模型
-  llmMode: { help: '「自動」會先用 DSH 已登入的訂閱模型，失敗時改用下方的自訂 API。' },
+  llmMode: {
+    help: '「自動」會用 DSH 新對話目前使用的模型，失敗時改用下方的自訂 API。想固定用某個模型，選「DSH 訂閱模型」再填下面兩欄。',
+  },
   subscriptionProvider: {
     label: '訂閱服務',
-    help: 'DSH 已登入的模型服務代號，例如 antigravity、codex、copilot。',
+    help: 'DSH 已登入的模型服務代號。用 DSH 自帶的 DeepSeek 帳號就填 deepseek-account；清單裡會列出你的 DSH 目前有的服務。',
   },
   customLlmApiKey: { label: '自訂 API 金鑰', help: 'OpenAI 相容服務的金鑰。' },
   customLlmApiBase: {
@@ -613,8 +615,8 @@ export const FIELD_SUGGESTIONS = {
     'UTC',
   ],
   memoryDiaryWriter: ['memu', 'meow', 'files', 'session'],
-  subscriptionProvider: ['antigravity', 'codex', 'copilot'],
-  subscriptionModel: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gpt-5.1', 'claude-sonnet-4'],
+  subscriptionProvider: ['deepseek-account', 'deepseek-official'],
+  subscriptionModel: ['deepseek-v4-pro', 'deepseek-v4-flash'],
   customLlmApiBase: ['https://api.deepseek.com', 'https://api.openai.com/v1', 'https://openrouter.ai/api/v1'],
   customLlmModel: ['deepseek-chat', 'deepseek-reasoner', 'gpt-4o-mini'],
   voiceCostCurrency: ['USD', 'TWD', 'CNY', 'JPY', 'EUR'],
