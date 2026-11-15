@@ -66,6 +66,8 @@ import { createReactionEngine } from './features/reactions.js';
 import { FeiyuMoodAdapter } from './mood-adapter.js';
 import { TurnCoordinator, DeliveryTrace } from './features/turn-coordinator.js';
 import { createResponder } from './features/responder.js';
+import { createSlangTone } from './features/slang-tone.js';
+import { createSlangPreview } from './features/slang-preview.js';
 import { threadCandidate, shouldCreateThread, threadOptions } from './features/thread-policy.js';
 import { ConfigHistory } from './config-history.js';
 import { FollowupWindow } from './features/followup.js';
@@ -447,7 +449,10 @@ export async function apply(ctx, userConfig = {}) {
   ctx.effect(() => () => voiceMessages.close());
   const memeImages = new MemeImages({ ctx, root: join(dataDir, 'meme-outbox') });
   ctx.provide?.('discordMemeImages', memeImages);
+  // 語氣樣本（鄉民語氣）：樣本由其他插件提供，這裡只負責判斷每一則要不要附。
+  const slangTone = createSlangTone({ history, log: logger });
   const responder = createResponder({
+    slangTone,
     memberNames,
     memeImages,
     ctx,
@@ -1332,6 +1337,13 @@ export async function apply(ctx, userConfig = {}) {
   ctx.provide?.('discordCapabilities', capabilities);
   ctx.effect(() => () => capabilities.close());
   const api = createApiHandler({
+    slangTone,
+    slangPreview: createSlangPreview({
+      ctx,
+      getConfig,
+      slangTone,
+      selfName: () => manager.byKind.bot?.selfName || manager.byKind.user?.selfName || '',
+    }),
     ytdlp: ytdlpControl,
     pythonSetup,
     channelActions,
@@ -1574,7 +1586,7 @@ export async function apply(ctx, userConfig = {}) {
 
   // --------------------------------------------------------------- 對外服務 ---
   globalThis.__DSH_DISCORD_PYSELF_LAB__ = {
-    version: '1.0.5',
+    version: '1.0.6',
     registerMusicProvider: (provider) => musicProviders.register(provider),
     musicProviders: () => musicProviders.catalog(),
     culture: {

@@ -60,6 +60,7 @@ export function contextLimit(config) {
 }
 
 export function createResponder({
+  slangTone,
   memberNames,
   memeImages,
   ctx,
@@ -340,6 +341,18 @@ export function createResponder({
       requesterId: requestingUserId,
     });
 
+    // 語氣樣本：這一則要不要附幾句口語樣本，由本機規則決定（不呼叫模型）。不附的時候不加任何文字。
+    // 只接在這一則的使用者訊息後面，不放進系統段落，正式會話的固定開頭不會因此變動。
+    if (slangTone) {
+      const tone = slangTone.decide({
+        message,
+        config,
+        scope: transport.kind + ':' + transport.selfId + ':' + message.channelId,
+        spoken: willSpeak(message, transport, recordedVoice),
+        selfId: transport.selfId,
+      });
+      if (tone.use) prompt.user += tone.block;
+    }
     if (moodAdapter && config.feiyuMoodEnabled !== false && !useSession) {
       const binding = sessionBridge?.bindings?.[sessionBridge.identity(message, transport)];
       prompt.system += await moodAdapter.prompt({

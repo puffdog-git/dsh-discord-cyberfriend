@@ -545,6 +545,11 @@ function DiscordHubPanel() {
       ];
     }
     if (section === 'topics') return [h(ConversationTopics, { key: 'conversation-topics' })];
+    if (section === 'slang')
+      return [
+        h(SlangTonePanel, { key: 'slang-status', onNavigate: go, config }),
+        fieldCard('slang', '共用設定（所有對象都適用）', 'chat'),
+      ];
     if (section === 'reaction')
       return [
         fieldCard('reaction', '反應與表情圖片', 'reaction'),

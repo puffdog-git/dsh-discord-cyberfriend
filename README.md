@@ -96,7 +96,7 @@ dsh plugin --profile web add dsh-discord-cyberfriend
 
 - [安裝說明](INSTALL.md)
 - [會話與人格](docs/DSH-SESSIONS-AND-PERSONA.md) · [語音](docs/VOICE-RELIABILITY.md) · [語音訊息](docs/VOICE-MESSAGES.md)
-- [頻道操作](docs/CHANNEL-ACTIONS.md) · [圖片與貼圖](docs/MEME-IMAGES.md) · [記憶](docs/MEMORY-COMPATIBILITY.md)
+- [頻道操作](docs/CHANNEL-ACTIONS.md) · [圖片與貼圖](docs/MEME-IMAGES.md) · [記憶](docs/MEMORY-COMPATIBILITY.md) · [鄉民語氣](docs/SLANG-TONE.md)
 - [功能範圍與限制](docs/DISCORD-CAPABILITY-GAPS.md) · [安全與資料](SECURITY.md) · [版本紀錄](CHANGELOG.md)
 
 ## 🙏 程式碼來源與致謝

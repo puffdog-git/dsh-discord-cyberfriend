@@ -150,6 +150,14 @@ export function createApiHandler(deps) {
       const b = await readJson(req);
       return deps.voice.replay({ kind: b.kind, id: String(b.id || '') });
     },
+    // 語氣樣本的狀態：有哪些提供者、樣本數、今天用了幾次與原因（不含樣本內容）。
+    'GET /slang': async () => deps.slangTone?.status() || { ok: false, error: '語氣樣本功能未就緒' },
+    // 預覽：同一句話各產生一則沒附／有附樣本的回覆。只呼叫模型，不會送到 Discord。
+    'POST /slang/preview': async (req) => {
+      if (!deps.slangPreview) return { ok: false, error: '語氣樣本功能未就緒' };
+      const body = await readJson(req);
+      return deps.slangPreview({ text: body?.text, audience: body?.audience });
+    },
     'GET /voice/music-providers': async () => ({
       ok: true,
       providers: deps.musicProviders?.catalog() || [],

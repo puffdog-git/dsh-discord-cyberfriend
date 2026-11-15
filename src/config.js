@@ -60,6 +60,7 @@ export const SECTIONS = [
   { id: 'cochat', group: 'audience', label: '閒聊上限', icon: 'chat' },
   { id: 'safety', group: 'audience', label: '群聊人格安全', icon: 'settings' },
   { id: 'reaction', group: 'interact', label: '反應與貼圖', icon: 'reaction' },
+  { id: 'slang', group: 'interact', label: '鄉民語氣', icon: 'chat' },
   { id: 'gif', group: 'interact', label: 'GIF 圖庫', icon: 'gif' },
   { id: 'culture', group: 'interact', label: '表情與 GIF 記憶', icon: 'reaction' },
   { id: 'topics', group: 'interact', label: '話題與延後回覆', icon: 'history', readOnly: true },
@@ -1512,9 +1513,42 @@ FIELDS.push(
   { key: 'tokenDailyLimit', section: 'advanced', type: 'number', default: 0, min: 0, max: 1000000000 },
   { key: 'tokenMonthlyLimit', section: 'advanced', type: 'number', default: 0, min: 0, max: 10000000000 },
 );
+// 語氣樣本（鄉民語氣）：前三個欄位每個對象各有一份，其餘是所有對象共用。
+FIELDS.push(
+  { key: 'slangToneEnabled', section: 'slang', type: 'boolean', default: false },
+  {
+    key: 'slangToneMode',
+    section: 'slang',
+    type: 'select',
+    default: 'both',
+    options: [opt('both', '看情境，沒有合適情境時再看機率'), opt('context', '只看情境'), opt('chance', '只看機率')],
+  },
+  { key: 'slangToneChance', section: 'slang', type: 'range', default: 15, min: 0, max: 100, step: 5 },
+  { key: 'slangToneCooldownTurns', section: 'slang', type: 'number', default: 3, min: 0, max: 20 },
+  { key: 'slangToneGroupFollow', section: 'slang', type: 'boolean', default: true },
+  { key: 'slangToneTopicMatch', section: 'slang', type: 'boolean', default: true },
+  {
+    key: 'slangToneTriggerWords',
+    section: 'slang',
+    type: 'tags',
+    default: ['笑死', '鄉民', 'PTT', '八卦', '推爆', '先推', '樓上', '樓下', '五樓', '酸民', '肥宅', '歐印', '韭菜', '塊陶', '4樓', '哈哈哈', 'XD', 'QQ'],
+  },
+  {
+    key: 'slangToneSeriousWords',
+    section: 'slang',
+    type: 'tags',
+    default: ['過世', '去世', '往生', '告別式', '喪禮', '癌', '住院', '手術', '急診', '車禍', '自殺', '想死', '憂鬱', '焦慮', '失眠', '確診', '生病', '受傷', '分手', '離婚', '吵架', '失業', '被騙', '被罵', '霸凌', '難過', '想哭', '崩潰', '低潮', '壓力', '心情很差', '心情不好', '好累'],
+  },
+  { key: 'slangToneSources', section: 'slang', type: 'tags', default: [] },
+  { key: 'slangToneBlockWords', section: 'slang', type: 'tags', default: [] },
+  { key: 'slangToneExcludedChannelIds', section: 'slang', type: 'tags', default: [] },
+);
 // 套用白話標籤與說明（只改顯示文字）；必須在產生各對象欄位之前，讓它們沿用同一份文字。
 applyFieldText(FIELDS);
 const COMMON_AUDIENCE_KEYS = [
+  'slangToneEnabled',
+  'slangToneMode',
+  'slangToneChance',
   'memeImagesEnabled',
   'musicControlEnabled',
   'knowledgeLookupEnabled',

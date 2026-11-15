@@ -240,6 +240,50 @@ export const FIELD_TEXT = {
     label: '看懂貼圖',
     help: '讓 AI 看到 PNG、APNG、GIF 與 Lottie 的抽樣畫面。Lottie 在本機轉圖；動畫需開啟 GIF 看圖。未安裝轉圖元件或轉圖失敗時只參考名稱，不假裝看過畫面。',
   },
+  slangToneEnabled: {
+    label: '偶爾帶鄉民語氣',
+    help: '回覆時有機會參考 PTT 板友的真實留言，帶一點鄉民的口氣。需要安裝「刷 PTT」插件並收集到風格樣本；只用在文字回覆，不改變人設。',
+  },
+  slangToneMode: {
+    label: '什麼時候帶鄉民語氣',
+    help: '情境：對方自己在用鄉民用語、這個頻道最近常出現、或話題和 PTT 上的討論對得上。機率：每一則回覆各抽一次。',
+  },
+  slangToneChance: {
+    label: '帶鄉民語氣的機率 (%)',
+    help: '沒有合適情境時，每一則回覆有這麼高的機會帶鄉民語氣。選「只看情境」時不使用。',
+  },
+  slangToneCooldownTurns: {
+    label: '用過之後隔幾則才能再用',
+    help: '同一個頻道裡，帶過一次鄉民語氣後，要再回覆這麼多則才會考慮再用，避免每句都是鄉民腔。填 0 表示不限制。',
+  },
+  slangToneGroupFollow: {
+    label: '頻道裡常出現鄉民用語時跟著用',
+    help: '最近的對話裡有兩則以上用到下面的「鄉民用語」時，視為合適的情境。',
+  },
+  slangToneTopicMatch: {
+    label: '話題和 PTT 上的討論對得上時使用',
+    help: '對方聊的內容和風格樣本的話題相符時，視為合適的情境。',
+  },
+  slangToneTriggerWords: {
+    label: '鄉民用語（出現這些字算合適的情境）',
+    help: '對方的訊息或頻道最近的對話出現這些字，就當成可以帶鄉民語氣的情境。',
+  },
+  slangToneSeriousWords: {
+    label: '嚴肅話題的字（出現就不帶）',
+    help: '對方的訊息出現這些字時，這一則不帶鄉民語氣。',
+  },
+  slangToneSources: {
+    label: '只用哪些看板的樣本（留空全部）',
+    help: '填看板的英文名，例如 C_Chat、Stock。留空表示用風格庫裡所有看板的樣本。',
+  },
+  slangToneBlockWords: {
+    label: '禁用詞（含這些字的樣本不用）',
+    help: '風格樣本裡出現這些字的句子不會給 AI 參考。',
+  },
+  slangToneExcludedChannelIds: {
+    label: '不使用鄉民語氣的頻道',
+    help: '這些頻道的回覆永遠不帶鄉民語氣。',
+  },
   memeImagesEnabled: {
     label: '允許 AI 傳表情圖片',
     help: '讓 AI 從表情圖庫插件挑圖傳送。需先安裝並啟用表情圖庫插件。',

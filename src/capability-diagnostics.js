@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { styleProviders } from './features/slang-tone.js';
 import { readFile } from 'node:fs/promises';
 import { knowledgeCatalog } from './knowledge-tools.js';
 import { MEMORY_SYSTEMS } from './memory-connectors.js';
@@ -465,6 +466,24 @@ export class CapabilityDiagnostics {
         token: this.identity(get(this.ctx, 'dshMeme')),
         group: 'voiceDelivery',
         features: [feature('image', '選圖後上傳真實圖片附件', !!meme?.available)],
+      });
+    }
+    {
+      // 語氣樣本（鄉民語氣）：樣本由其他插件登記提供；這裡只看有沒有提供者、樣本庫是不是空的。
+      const providers = styleProviders();
+      let samples = 0;
+      for (const p of providers) {
+        try {
+          samples += Number(p.status?.()?.samples) || 0;
+        } catch {}
+      }
+      add('style.slang', 'knowledge', '鄉民語氣樣本', {
+        section: 'slang',
+        packages: ['dsh-ptt-dive'],
+        registered: providers.length > 0,
+        state: samples > 0 ? 'unknown' : 'blocked',
+        detail: !providers.length ? '沒有安裝提供語氣樣本的插件' : samples > 0 ? `樣本庫有 ${samples} 句` : '樣本來源已載入，但樣本庫是空的',
+        features: [feature('samples', '提供口語樣本給回覆參考', samples > 0)],
       });
     }
     for (const row of knowledgeCatalog(this.ctx).slice(0, 100)) {

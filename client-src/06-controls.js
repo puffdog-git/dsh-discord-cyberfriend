@@ -381,7 +381,7 @@ const AUDIENCE_FIELD_GROUPS = [
     '回覆與接話',
     /^(replyDeliveryMode|dmReplyEnabled|mentionReplyEnabled|followup.*|coChat.*|interestKeywords|monitoredChannelIds)$/,
   ],
-  ['人格與文字風格', /^(.*Persona.*|plugin.*|antiAiFlavor.*|stripMarkdown|replyChineseScript)$/, true],
+  ['人格與文字風格', /^(.*Persona.*|plugin.*|antiAiFlavor.*|stripMarkdown|replyChineseScript|slangTone.*)$/, true],
   [
     '圖片、GIF 與反應',
     /^(gif.*|imageVision.*|emojiVision.*|autoReaction.*|sticker.*|memeImagesEnabled)$/,

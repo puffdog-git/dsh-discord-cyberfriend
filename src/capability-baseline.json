@@ -1,7 +1,7 @@
 {
   "schema": "discord.capability-contract-baseline",
   "version": 1,
-  "at": 1794752514881,
+  "at": 1794763450303,
   "groups": [
     "tts",
     "stt",
@@ -13,7 +13,7 @@
     "mood",
     "voiceDelivery"
   ],
-  "tests": 578,
+  "tests": 607,
   "scope": "Only this plugin adapter contracts with isolated fixtures; no external account or backend certification.",
   "files": [
     {
@@ -22,7 +22,7 @@
     },
     {
       "path": "./api.js",
-      "hash": "c159f3732bf812b88fdecf3cbd71cebf9e8688a61e6a82fa8aa184c696f8f841"
+      "hash": "f1497fd2e96d51d2346c524221dfeb01e0d78a0849afeb38259833d1510b839a"
     },
     {
       "path": "./audio-replay.js",
@@ -30,7 +30,7 @@
     },
     {
       "path": "./capability-diagnostics.js",
-      "hash": "730792b5bb19bbca0f5871f31f02d7b7ea4eb9f88aec919e3fd85cf2052614cf"
+      "hash": "a580070ed8aeae52b86495cd0b0e2def8b2792450a0d1b41c6a5eeebbb0b71c1"
     },
     {
       "path": "./channel-actions.js",
@@ -58,7 +58,7 @@
     },
     {
       "path": "./config.js",
-      "hash": "bde941d1fff5d3b0cb4ae6b710393ce7de829da2bc2605a20c9120b6877a0f96"
+      "hash": "2cb10517d20f8db04b8e622556d764da12463ae3393c08905f2661fea049e8cf"
     },
     {
       "path": "./conversation-desk.js",
@@ -106,7 +106,15 @@
     },
     {
       "path": "./features/responder.js",
-      "hash": "ac1a021b098bef3fc8e74671fa0ff66ff9a547ead6e884cb8bdfebabe8a9dc42"
+      "hash": "e6c9493e7cfef5450f737d50d616b2dc045d01fa3833b2c8e20e417e99e53510"
+    },
+    {
+      "path": "./features/slang-preview.js",
+      "hash": "9ac02ab1b58fb5368c742c3ed85a50c8b76d4d7bd629a064e1c6fac8d4211bea"
+    },
+    {
+      "path": "./features/slang-tone.js",
+      "hash": "ffded906fe89c285e4c0df46aea0a12b295dfed615c8ce5a063d0a2dca1d6814"
     },
     {
       "path": "./features/thread-policy.js",
@@ -122,7 +130,7 @@
     },
     {
       "path": "./field-text.js",
-      "hash": "631edd969c2c4ff66642027f293cc9b61f66c7db88efe24c6cc8da57862ef32d"
+      "hash": "3f92b3ee6d867c15f553760ab37939e7ec191afc801f381dd73a56650e93e9a4"
     },
     {
       "path": "./gif.js",
@@ -142,7 +150,7 @@
     },
     {
       "path": "./index.js",
-      "hash": "6131bd2f6fe893646815201fefa2da8c3f4cfe489e1326340d3a6d7fab82c40a"
+      "hash": "185b7b216b812adb8e5dac4504ca8d1c13f2dbd231e7d81b724c662d2499cc29"
     },
     {
       "path": "./knowledge-tools.js",
@@ -433,5 +441,5 @@
       "hash": "ac5192f5a698e7e0ab70a6797dd02c6b296c0f8ce527970212145d2f6264b07f"
     }
   ],
-  "digest": "ef3a441d6c1eb2c8f89ee69389330503fb3dbc94acc0806643544d77f69588cc"
+  "digest": "3cec228a0e7ad3471e6852d17998147f5683c3686345aedef41e94ef02932366"
 }
