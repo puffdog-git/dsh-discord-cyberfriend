@@ -51,12 +51,12 @@ dsh plugin --profile web add dsh-discord-cyberfriend
 | --- | --- |
 | 在語音房講話 | 再安裝姊妹作 DSH 聲音工坊（`dsh-sound-atelier`），然後在「語音」設定裡開啟。 |
 | 聽人說話 | 另外準備語音辨識服務，見[說明](docs/EXTERNAL-STT.md)。 |
-| 用個人帳號 | 需要 Python 3.11 以上，執行下面的指令。**有帳號風險**，請先看 [README](README.md) 的提醒。 |
+| 用個人帳號 | 到設定的「使用者帳號」頁，按「Python 執行環境」旁的**一鍵安裝**（會用 DSH 內附的 Python，需要網路，通常幾分鐘內完成）。**有帳號風險**，請先看 [README](README.md) 的提醒。 |
 | YouTube 點歌 | 不用另外裝東西。第一次點歌時插件會自動下載 yt-dlp（十幾 MB，需要網路），也可以先到「語音」頁按「下載 yt-dlp」。YouTube 改版後點不了歌，就到同一個地方按「更新 yt-dlp」。 |
 | AI 翻唱 | 找歌和下載音源已經內建。另外安裝翻唱引擎插件 `dsh-cover-pipeline` 並準備好音色，再到「唱歌與翻唱」開啟。之後跟 AI 說歌名就可以。 |
 | 梗圖、長期記憶 | 各自需要其他插件。設定裡的「外部能力與診斷」會告訴你哪些已經可以用。 |
 
-個人帳號的安裝指令（把 `web` 換成你的 profile、路徑換成你的 Python）：
+一鍵安裝不能用的時候（例如找不到 Python），也可以改用指令安裝（Windows；把 `web` 換成你的 profile、路徑換成你的 Python 3.11 以上）：
 
 ```powershell
 powershell -NoProfile -File "$HOME\.dsh\profiles\web\node_modules\dsh-discord-cyberfriend\scripts\setup.ps1" -PythonExecutable 'C:/path/to/python.exe'

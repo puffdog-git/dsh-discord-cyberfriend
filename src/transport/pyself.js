@@ -20,7 +20,7 @@ export function pythonExecutable(config = {}) {
   const selected = explicit || (existsSync(bundled) || !existsSync(external) ? bundled : external);
   if (!existsSync(selected))
     throw Error(
-      '找不到 Python 環境。使用者帳號需要先照安裝說明執行一次 Python 設定指令；已經有自己的 Python 環境的話，請在設定填入它的路徑',
+      '找不到 Python 環境。請到設定的「使用者帳號」卡片按「一鍵安裝」；已經有自己的 Python 環境的話，請在設定填入它的路徑',
     );
   return selected;
 }

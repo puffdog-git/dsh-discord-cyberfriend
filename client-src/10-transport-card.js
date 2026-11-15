@@ -80,6 +80,7 @@ function TransportCard({
           ),
         )
       : null,
+    isUser ? h(PythonSetupRow, { key: 'python' }) : null,
     h(
       'div',
       { className: 'dpl-row', 'data-type': 'password' },

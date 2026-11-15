@@ -28,7 +28,7 @@ export const FIELD_TEXT = {
   userAutoStart: { help: 'DSH 啟動後自動用已儲存的 Token 連線。預設關閉。' },
   userPythonExecutable: {
     label: 'Python 執行檔路徑（進階）',
-    help: '一般留空，插件會使用你照安裝說明建立的 Python 環境。只有想改用自己另外準備的 Python 時才填完整路徑。',
+    help: '一般留空，插件會使用上面「一鍵安裝」裝好的 Python 環境。只有想改用自己另外準備的 Python 時才填完整路徑；填了之後不會自動安裝。',
   },
   userReceiveOnly: {
     label: '僅觀察（不發言）',

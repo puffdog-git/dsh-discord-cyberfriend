@@ -1,7 +1,7 @@
 {
   "schema": "discord.capability-contract-baseline",
   "version": 1,
-  "at": 1794740602993,
+  "at": 1794742264355,
   "groups": [
     "tts",
     "stt",
@@ -13,7 +13,7 @@
     "mood",
     "voiceDelivery"
   ],
-  "tests": 562,
+  "tests": 570,
   "scope": "Only this plugin adapter contracts with isolated fixtures; no external account or backend certification.",
   "files": [
     {
@@ -22,7 +22,7 @@
     },
     {
       "path": "./api.js",
-      "hash": "f47b43a51926679c766fd04bc0e3933f2bd173d9162cb19bbc2c63de1d68e070"
+      "hash": "c159f3732bf812b88fdecf3cbd71cebf9e8688a61e6a82fa8aa184c696f8f841"
     },
     {
       "path": "./audio-replay.js",
@@ -122,7 +122,7 @@
     },
     {
       "path": "./field-text.js",
-      "hash": "5cadcff68ea19498f08d3dc806d5e26bd0a85e0157490941eb9104d8c6bf9133"
+      "hash": "631edd969c2c4ff66642027f293cc9b61f66c7db88efe24c6cc8da57862ef32d"
     },
     {
       "path": "./gif.js",
@@ -142,7 +142,7 @@
     },
     {
       "path": "./index.js",
-      "hash": "862f29f1ba7ea6d6acbfd64288faa87beb0ce109fc987ddc931fd9a8ef72da60"
+      "hash": "022503157005f13bf718b1531bebad999bb78698ec0c21d0885dfc341314829d"
     },
     {
       "path": "./knowledge-tools.js",
@@ -225,6 +225,10 @@
       "hash": "53f65e5746e44aec7971d87d2918926dd665fa52a81f92d7fee241f6ca74fad8"
     },
     {
+      "path": "./python-setup.js",
+      "hash": "fb124ab78fcf72c8c1d9ac8ea64c496eb6a44bfae20a5e2c19c922f1fdbd2fcb"
+    },
+    {
       "path": "./reply-script.js",
       "hash": "7bb95abd22f79152e1e002b832b24f4e79532892551d6caec5afe51bc7119a73"
     },
@@ -286,7 +290,7 @@
     },
     {
       "path": "./transport/pyself.js",
-      "hash": "9e87736156139684045669a831ab09493ed3c5a56b53c3e19bac54b005577a56"
+      "hash": "61c1d1d8577eac0d9a58e86654594ccf94dd1799dcac8f246fb727c88dcb1340"
     },
     {
       "path": "./transport/tokenCheck.js",
@@ -429,5 +433,5 @@
       "hash": "ac5192f5a698e7e0ab70a6797dd02c6b296c0f8ce527970212145d2f6264b07f"
     }
   ],
-  "digest": "bab81ffd4fcbfb8f6ddc319682ee0e2092b58a6051a7ec091fa7e581c1548dc7"
+  "digest": "6a842bdfb01beb9166f13ce1a43fa97d163946315c5dc60b0055f0bfd00f74c3"
 }

@@ -3,6 +3,7 @@ import { prepareDataDir, installedAsPackage } from './data-location.js';
 import { ensureFfmpeg } from './ffmpeg-ensure.js';
 import { createYtdlpRunner } from './ytdlp/runner.js';
 import { createYtdlpInstaller } from './ytdlp/installer.js';
+import { createPythonSetup } from './python-setup.js';
 import { createVideoTools } from './ytdlp/video-tools.js';
 import { FFMPEG } from './voice-audio.js';
 import { createYoutubeMusic } from './ytdlp/youtube-music.js';
@@ -347,6 +348,9 @@ export async function apply(ctx, userConfig = {}) {
   // 內建的 YouTube 音樂來源。yt-dlp 執行檔不隨插件附送：啟動時在背景找一次，
   // 沒有的話在第一次點歌（或使用者在語音頁按下載）時從官方發行頁下載。
   const ytdlpInstaller = createYtdlpInstaller({ log: logger });
+  // 使用者帳號需要的 Python 環境：只在使用者於設定頁按「一鍵安裝」時才執行。
+  const pythonSetup = createPythonSetup({ getConfig, log: logger });
+  ctx.effect(() => () => pythonSetup.close());
   const ytdlp = createYtdlpRunner({ getConfig, install: () => ytdlpInstaller.install() });
   const ytdlpAutoInstall = () =>
     ytdlpInstaller.status().supported && !String(getConfig().musicYtdlpPath || '').trim();
@@ -1329,6 +1333,7 @@ export async function apply(ctx, userConfig = {}) {
   ctx.effect(() => () => capabilities.close());
   const api = createApiHandler({
     ytdlp: ytdlpControl,
+    pythonSetup,
     channelActions,
     memberNames,
     memeImages,
@@ -1569,7 +1574,7 @@ export async function apply(ctx, userConfig = {}) {
 
   // --------------------------------------------------------------- 對外服務 ---
   globalThis.__DSH_DISCORD_PYSELF_LAB__ = {
-    version: '1.0.2',
+    version: '1.0.3',
     registerMusicProvider: (provider) => musicProviders.register(provider),
     musicProviders: () => musicProviders.catalog(),
     culture: {

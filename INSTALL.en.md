@@ -53,12 +53,12 @@ Nothing happening? The run log says why it stayed quiet (not on the list, coolin
 | --- | --- |
 | Talk in voice channels | Also install the sister project DSH-sound-atelier (`dsh-sound-atelier`), then turn it on in the voice settings. |
 | Listen to people | Set up a speech-recognition service; see [this note](docs/EXTERNAL-STT.md) (Chinese). |
-| Use a personal account | Needs Python 3.11 or later; run the command below. **Your account is at risk**; read the warning in the [README](README.en.md) first. |
+| Use a personal account | Open the 使用者帳號 (user account) page in the settings and press **一鍵安裝** (one-click install) next to Python 執行環境. It uses the Python bundled with DSH, needs network access and usually finishes within minutes. **Your account is at risk**; read the warning in the [README](README.en.md) first. |
 | YouTube requests | Nothing extra to install. The first time you request a song the plugin downloads yt-dlp by itself (a couple of dozen MB, network required); you can also press 下載 yt-dlp on the voice page beforehand. If requests stop working after a YouTube change, press 更新 yt-dlp in the same place. |
 | AI covers | Finding and downloading the song is built in. Install the cover-engine plugin `dsh-cover-pipeline` separately and set up a voice, then turn covers on under 唱歌與翻唱. After that, just tell the AI a song title. |
 | Memes, long-term memory | Each needs another plugin. The diagnostics page (外部能力與診斷) shows which are ready. |
 
-Personal-account setup (replace `web` with your profile and the path with your Python):
+If the button cannot be used (for example no Python is found), install from the command line instead (Windows; replace `web` with your profile and the path with your Python 3.11 or later):
 
 ```powershell
 powershell -NoProfile -File "$HOME\.dsh\profiles\web\node_modules\dsh-discord-cyberfriend\scripts\setup.ps1" -PythonExecutable 'C:/path/to/python.exe'

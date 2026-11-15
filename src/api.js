@@ -161,6 +161,15 @@ export function createApiHandler(deps) {
       if (!result.ok) throw Error('yt-dlp 下載失敗：' + result.error);
       return result;
     },
+    // 使用者帳號需要的 Python 環境：狀態，以及由使用者在設定頁觸發的一鍵安裝。
+    // 安裝要幾分鐘，所以這裡只負責開始；進度由介面讀取狀態。
+    'GET /user/python': async () => ({ ok: true, python: await deps.pythonSetup.inspect() }),
+    'POST /user/python/install': async () => {
+      const before = deps.pythonSetup.status();
+      if (before.customPath) throw Error('你已經填了自己的 Python 路徑，不會自動安裝；想用一鍵安裝請先清空那一欄並存檔');
+      deps.pythonSetup.install();
+      return { ok: true, started: true, python: deps.pythonSetup.status() };
+    },
     'GET /voice/music': async (req) => deps.voice.library(req, queryOf(req)),
     'POST /voice/music': async (req) => {
       const b = await readJson(req);

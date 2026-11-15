@@ -1,6 +1,6 @@
 {
   "name": "dsh-discord-cyberfriend",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Discord-cyberfriend (Discord 賽博群友): a DSH companion that chats, reacts and speaks on Discord through a bot or a user account.",
   "type": "module",
   "main": "src/index.js",
