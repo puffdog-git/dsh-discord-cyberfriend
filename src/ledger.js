@@ -20,6 +20,7 @@ function emptyState() {
     date: todayKey(),
     mentionReplies: 0,
     dmReplies: 0,
+    adminReplies: 0,
     coChats: 0,
     reactions: 0,
     gifs: 0,
@@ -136,7 +137,11 @@ export class Ledger {
   record(kind, details = {}) {
     this.rolloverIfNeeded();
     const s = this.state;
-    if (kind === 'mention') s.mentionReplies += 1;
+    // 管理者的 @ 與私訊另外記（adminReplies），不佔用其他使用者的每日額度。
+    const adminId = String(this.config?.adminUserId || '');
+    const admin = Boolean(adminId) && String(details.userId || '') === adminId && (kind === 'mention' || kind === 'dm');
+    if (admin) s.adminReplies = (s.adminReplies || 0) + 1;
+    else if (kind === 'mention') s.mentionReplies += 1;
     else if (kind === 'dm') s.dmReplies += 1;
     else if (kind === 'cochat') s.coChats += 1;
     else if (kind === 'reaction') s.reactions += 1;
@@ -245,6 +250,7 @@ export class Ledger {
       date: s.date,
       mentionReplies: s.mentionReplies,
       dmReplies: s.dmReplies,
+      adminReplies: s.adminReplies || 0,
       coChats: s.coChats,
       reactions: s.reactions,
       gifs: s.gifs,

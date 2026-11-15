@@ -1187,7 +1187,7 @@ export async function apply(ctx, userConfig = {}) {
           `使用者帳號：${status.user.state}${status.user.user ? ` (${status.user.user.tag})` : ''}`,
           `機器人：${status.bot.state}${status.bot.user ? ` (${status.bot.user.tag})` : ''}`,
           '',
-          `今日：@ ${stats.mentionReplies} / 私訊 ${stats.dmReplies} / 閒聊 ${stats.coChats} / 表情 ${stats.reactions} / 錯誤 ${stats.errors}`,
+          `今日：其他人 @ ${stats.mentionReplies} / 其他人私訊 ${stats.dmReplies} / 管理者 ${stats.adminReplies || 0} / 閒聊 ${stats.coChats} / 表情 ${stats.reactions} / 錯誤 ${stats.errors}`,
         ].join('\n'),
       );
       return;
@@ -1574,7 +1574,7 @@ export async function apply(ctx, userConfig = {}) {
 
   // --------------------------------------------------------------- 對外服務 ---
   globalThis.__DSH_DISCORD_PYSELF_LAB__ = {
-    version: '1.0.3',
+    version: '1.0.4',
     registerMusicProvider: (provider) => musicProviders.register(provider),
     musicProviders: () => musicProviders.catalog(),
     culture: {

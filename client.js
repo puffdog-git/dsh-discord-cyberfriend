@@ -8587,8 +8587,9 @@ function DiscordHubPanel() {
     cochat: Number(draft.maxDailyCoChats) || 80,
   };
   const kpis = [
-    { key: 'mention', label: '@ 回覆', value: stats.mentionReplies || 0, cap: caps.mention },
-    { key: 'dm', label: '私訊回覆', value: stats.dmReplies || 0, cap: caps.dm },
+    { key: 'mention', label: '其他人的 @ 回覆', value: stats.mentionReplies || 0, cap: caps.mention },
+    { key: 'dm', label: '其他人的私訊回覆', value: stats.dmReplies || 0, cap: caps.dm },
+    { key: 'admin', label: '管理者回覆（不限）', value: stats.adminReplies || 0, cap: 0 },
     { key: 'cochat', label: '閒聊插話', value: stats.coChats || 0, cap: caps.cochat },
     { key: 'reaction', label: '表情反應', value: stats.reactions || 0, cap: 0 },
   ];

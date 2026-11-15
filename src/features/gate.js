@@ -95,8 +95,11 @@ export class ReplyGate {
         : kind === 'dm'
           ? config.maxDailyDmReplies
           : config.maxDailyCoChats;
+    // 管理者的 @ 與私訊不受每日、每小時總量上限限制，也不佔用額度（上限是給其他使用者的）。
+    // 閒聊插話是 AI 主動發言，不算在內，仍照原本的上限。
+    const adminExempt = kind !== 'cochat' && Boolean(config.adminUserId) && userId === String(config.adminUserId);
     const dailyUsed = this.ledger?.usedToday?.(kind) ?? 0;
-    if (Number(dailyCap) > 0 && dailyUsed >= Number(dailyCap))
+    if (!adminExempt && Number(dailyCap) > 0 && dailyUsed >= Number(dailyCap))
       return deny(`已達今日${KIND_LABEL[kind]}上限 (${dailyCap})`);
 
     if (
@@ -144,7 +147,7 @@ export class ReplyGate {
         return deny('與該使用者的冷卻中');
       }
       const window = kind === 'dm' ? this.dmWindow(context, message) : this.hourly[kind];
-      if (!window.tryPass(userId)) return deny('每小時回覆數已達上限');
+      if (!adminExempt && !window.tryPass(userId)) return deny('每小時回覆數已達上限');
     }
     if (admission) {
       this.admissions.set(admission, Date.now());
