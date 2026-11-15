@@ -1,0 +1,433 @@
+{
+  "schema": "discord.capability-contract-baseline",
+  "version": 1,
+  "at": 1794732959035,
+  "groups": [
+    "tts",
+    "stt",
+    "memory",
+    "knowledge",
+    "music",
+    "singing",
+    "schedule",
+    "mood",
+    "voiceDelivery"
+  ],
+  "tests": 558,
+  "scope": "Only this plugin adapter contracts with isolated fixtures; no external account or backend certification.",
+  "files": [
+    {
+      "path": "./admin-journal.js",
+      "hash": "543ff3c541db2b57a29217175f82ada1826703930ce14187085cd1b9c96ce57e"
+    },
+    {
+      "path": "./api.js",
+      "hash": "f47b43a51926679c766fd04bc0e3933f2bd173d9162cb19bbc2c63de1d68e070"
+    },
+    {
+      "path": "./audio-replay.js",
+      "hash": "29c3aee35b44797269e1ee2b5726831c3ba09b837b33371722cb111c8aa5c1b8"
+    },
+    {
+      "path": "./capability-diagnostics.js",
+      "hash": "2d7dbb10eeae3e4665587d755d184486706001cce62116d0302d3ffbffe66d6c"
+    },
+    {
+      "path": "./channel-actions.js",
+      "hash": "a4c12ebca2fb4d511c57a34654afbe3107a9f670cf8bd43e43d6b3600bba1423"
+    },
+    {
+      "path": "./channel-bot.js",
+      "hash": "0e3c449d0e36580bd82f1c4ff407a025ce759c230d826fd79e6660b4f4f84743"
+    },
+    {
+      "path": "./channel-lookup.js",
+      "hash": "ed923ca9e92abcace027c039a23ec8fe71a533967c15ba366f9c2e01afb5dece"
+    },
+    {
+      "path": "./companion-controls.js",
+      "hash": "4ad6c1a747dc6407be54ad99e931ae91706673cad9ad60318cc7ccae01dd631e"
+    },
+    {
+      "path": "./config-history.js",
+      "hash": "343be2a689af0af0b8e78609b08978642af49e1a33356e4c4719dd00391f1345"
+    },
+    {
+      "path": "./config-vault.js",
+      "hash": "36854a9e5ef8cea3b22cf2dc777a9907b490f4d6bf89e21765fa939f22d1f7ce"
+    },
+    {
+      "path": "./config.js",
+      "hash": "eef99372847fbc7ebfff8ef8b1c3913e8e381755f4e55653bc0668a430be74b8"
+    },
+    {
+      "path": "./conversation-desk.js",
+      "hash": "41195e4f93ddeb883ef2685818ea737759e431807620fac2f5299030c3bf1f0f"
+    },
+    {
+      "path": "./conversation-time.js",
+      "hash": "e8be7cd60d7839542477f3795bf2728b72c2019d26b5c27fdf4dbf3fea0575a6"
+    },
+    {
+      "path": "./data-location.js",
+      "hash": "57dfd31fbd5ddae40a1312b8e1644d02d97053bc537b47070778db110bb152e8"
+    },
+    {
+      "path": "./diary-agent.js",
+      "hash": "7aa00dc92c7465f8d0156541181e016395488d8cc079a723e2f0234545f13a8a"
+    },
+    {
+      "path": "./features/context.js",
+      "hash": "78228ff99a4d1afc98bb2690105e768b9b77870f6e9c26e683870b1997024c7c"
+    },
+    {
+      "path": "./features/controls.js",
+      "hash": "69d196a7291a8e9e0af77fbde72303e091a790d12fda30b7ca670f59cb65ec05"
+    },
+    {
+      "path": "./features/followup.js",
+      "hash": "31056ab61404ad22379ad21b682208a74abc46aeb356d8a94683dbaeea06680e"
+    },
+    {
+      "path": "./features/gate.js",
+      "hash": "07944887305e3ec45877f26b831863c48ad351f64ae334b3eda0b2a9d042a234"
+    },
+    {
+      "path": "./features/message-policy.js",
+      "hash": "2a7c4615a5246acdd0f06242e08865fd60912dff92519bf992f7ef3159252b94"
+    },
+    {
+      "path": "./features/message-sync.js",
+      "hash": "27caf5ca0795f513b30745460e693464ddff02b93b5353b5a3ebfe2d5eea2555"
+    },
+    {
+      "path": "./features/reactions.js",
+      "hash": "91691867530082c5a31f38092a3e03893739610b3fe59f84be6bfd2389c2198f"
+    },
+    {
+      "path": "./features/responder.js",
+      "hash": "ac1a021b098bef3fc8e74671fa0ff66ff9a547ead6e884cb8bdfebabe8a9dc42"
+    },
+    {
+      "path": "./features/thread-policy.js",
+      "hash": "d4968ddb658f4525c3fbebf4b07e06afc44397c05c8bd870f92eb1121b7c9840"
+    },
+    {
+      "path": "./features/turn-coordinator.js",
+      "hash": "019f1af704e434b12306f97e5ef48670de3b1665e54f296d5f9b010ca01e6168"
+    },
+    {
+      "path": "./ffmpeg-ensure.js",
+      "hash": "b0178a1202a7570b694ee21a9c546b3bceb5e7baa2c8338c3fd949b2b18c28dd"
+    },
+    {
+      "path": "./field-text.js",
+      "hash": "745c18a2cbf99db5a1ed762b196446d0e1d8ef2c06aa5b67de7dc6ceabd54aeb"
+    },
+    {
+      "path": "./gif.js",
+      "hash": "cf437b0457d67376e7910b528e0c8db2cc89665e0c93f78d311cc42fb7b9ef01"
+    },
+    {
+      "path": "./history.js",
+      "hash": "33235ab7783a3141580706e5504d14cbc5fbaf5488500ef07023c61c2ffc9d4b"
+    },
+    {
+      "path": "./http-security.js",
+      "hash": "b34cc5e88630fceb6d0c4a15f7bb9aad4aa55459b6d0cb716bd15607414b2013"
+    },
+    {
+      "path": "./incremental-speech.js",
+      "hash": "499def5c92554e835a094df965ddda16a26930292f494c101385818fce06d2a2"
+    },
+    {
+      "path": "./index.js",
+      "hash": "38039293b377bc6d5c16e8f6edc3675beb845411086eef0755be47ccb45753d3"
+    },
+    {
+      "path": "./knowledge-tools.js",
+      "hash": "799d75acbc5cd04c980f82c2dd511854676ca0a9471e3473efcd6abc18f81dea"
+    },
+    {
+      "path": "./ledger.js",
+      "hash": "d9944dd7fa561ffa202d32447a3d6d71ac35aecd5cc2d5400b8f100940d3d29f"
+    },
+    {
+      "path": "./llm.js",
+      "hash": "f110a7021dc489643d04674510649a5de84a9a4a7b5158bb082684c6abb72031"
+    },
+    {
+      "path": "./logger.js",
+      "hash": "dac3a1e2ab20cdeccd97f1847e9233c6244e1b495240220bbf52b9908607bdc9"
+    },
+    {
+      "path": "./media-culture.js",
+      "hash": "7964064630e3707afeb6afdf7041bac5f4e848f0e68aaca5bbfd47aae5615303"
+    },
+    {
+      "path": "./media.js",
+      "hash": "8358dcc15e98fc1289a1e3f763e1f244cb86d2cf97092b8026c323e2595ce61c"
+    },
+    {
+      "path": "./member-names.js",
+      "hash": "329ddaef1e7d5a9aefdf4db0f1768734b67543c2f27025cef35122ee7e31d8cb"
+    },
+    {
+      "path": "./meme-images.js",
+      "hash": "8ee7c81c12c9c17326a1f11ee6fe10e46de8f065d3d6ec6b67465a787d0c1e3f"
+    },
+    {
+      "path": "./memory-connectors.js",
+      "hash": "ccb061cf9fb1308af71897fb57c23c9448f377eb8bdb274bef0e694dab6ddf18"
+    },
+    {
+      "path": "./memory-contracts.js",
+      "hash": "3366f36f3005921fd7541ac436f9319592a10347e2e673a4d0fd5d6267bd63bc"
+    },
+    {
+      "path": "./memory-lingshu.js",
+      "hash": "a7740923e452dde10510dc16df5380ef699d0cf95241dc11257a88740ad54eed"
+    },
+    {
+      "path": "./memory-maintenance.js",
+      "hash": "fca09f6b26178f4497659dc318b8ba927daf42ff6b155ddfd1ba5c0ae9423b48"
+    },
+    {
+      "path": "./memory-output.js",
+      "hash": "2cbf3d4decddd4a2debc38674416805f9aa0a6b4c5052dd9ec374e5cdb6edabb"
+    },
+    {
+      "path": "./mood-adapter.js",
+      "hash": "034ae2ce5ca4be6f98a3f72b4edc1902faf3bdc83a32008f4a7853c4c07caad2"
+    },
+    {
+      "path": "./music-providers.js",
+      "hash": "b869419810d7f2b1f747c83d95de8cab76931d4f4f4bed024665bda897c286d1"
+    },
+    {
+      "path": "./music-tools.js",
+      "hash": "c693b59c8d3287d2679b32ed7ea0593476ce02ec7247a33d8d17c84e737f172b"
+    },
+    {
+      "path": "./music-youtube.js",
+      "hash": "45e418b7342fc1a67eaed9198ccd2deda9f8a35af3eda07f2126b91a82f12e5a"
+    },
+    {
+      "path": "./native-interactions.js",
+      "hash": "266e94cdc70b832ae6ad0858629c4c2d2a610122fb593a781c29d8a336ea10ae"
+    },
+    {
+      "path": "./pcm-stream.js",
+      "hash": "6b003ccc914903f360809d10e176a0b86d827a4ad3402e5cc15ee7491a7c3be5"
+    },
+    {
+      "path": "./persona.js",
+      "hash": "53f65e5746e44aec7971d87d2918926dd665fa52a81f92d7fee241f6ca74fad8"
+    },
+    {
+      "path": "./reply-script.js",
+      "hash": "7bb95abd22f79152e1e002b832b24f4e79532892551d6caec5afe51bc7119a73"
+    },
+    {
+      "path": "./security.js",
+      "hash": "0ffca6f820fd6b1df10f09d6a43e5df790d5b93650fdaa34a45bc8e7a3b845b5"
+    },
+    {
+      "path": "./session-bridge.js",
+      "hash": "9bdaa901d735ddfeba5ec71d108e7cbe9dbc95b52868a89d6122cd562cb19fd1"
+    },
+    {
+      "path": "./session-migration.js",
+      "hash": "3a3288217112af2a90c5e7a4cc3adb4d8ad4e96288830542e8f91b713d3c9980"
+    },
+    {
+      "path": "./skills.js",
+      "hash": "00d7dd2f03d4bfddbdfa469717137423ce5838772d6aa89584412f382ee657e5"
+    },
+    {
+      "path": "./song-delivery.js",
+      "hash": "6f4bed5cfe379d0553a64ce784f5c4a28687acc05fcdde40270dd5288414f66b"
+    },
+    {
+      "path": "./song-workflow/index.js",
+      "hash": "cc4baf3a43d72682ab6ad86e362d9833eb7949aee6095976b5d7ef0e30631f6c"
+    },
+    {
+      "path": "./song-workflow/pipeline.js",
+      "hash": "276d985f78d78221d7217212b704a6ca76871fd8cade54047aa1775b3a273f3d"
+    },
+    {
+      "path": "./song-workflow/source-url.js",
+      "hash": "048fc9285c068f1b7918e9445b617b8a8b94916bb099ce2c996778e2210df227"
+    },
+    {
+      "path": "./speech-direction.js",
+      "hash": "993618be2d3407d2f09876a05fd246ea8c19b9f48c9864cf546ed0f771dc8aef"
+    },
+    {
+      "path": "./speech-language.js",
+      "hash": "cb99d04280c6ba73503db8eb9d4c9ad8c884dd18520b86e7cdbdde884d4076fa"
+    },
+    {
+      "path": "./token-budget.js",
+      "hash": "a2d379e9fa02aa57a7b409f5feaf4a65f51f786853fece6232534ae95e30596c"
+    },
+    {
+      "path": "./tools.js",
+      "hash": "84f39c1d16723e23dc5d0a9a5581923f33236fae4defa3750dd466a3b210abcb"
+    },
+    {
+      "path": "./transcript-normalization.js",
+      "hash": "b05c1ee56c421aa2b84164a880bd7265bc1319ad0fc712f26f62d2a816f135a6"
+    },
+    {
+      "path": "./transport/bot.js",
+      "hash": "aac1adcec99dbc1713be058d5109a86d2d8bd642b74a6fce0e357cc3fe45fc2a"
+    },
+    {
+      "path": "./transport/pyself.js",
+      "hash": "9e87736156139684045669a831ab09493ed3c5a56b53c3e19bac54b005577a56"
+    },
+    {
+      "path": "./transport/tokenCheck.js",
+      "hash": "6fd2003bc249d030dcca72f7c2a7413953bd0b26c0035c1a31c549b6669360fa"
+    },
+    {
+      "path": "./transports.js",
+      "hash": "95610f28e86b0ba1f648b7ed76565ca82b65313b90249780488ecf5059bc55ac"
+    },
+    {
+      "path": "./tts-adapters.js",
+      "hash": "af1ca3ee086812f360ca6f6f272af45a0611cbf0f3459dc99c9c6107c5900255"
+    },
+    {
+      "path": "./tts-audio.js",
+      "hash": "2c4343514ee2d3e1539bf12bec5bd167ba1546fc71fb6b85ae4f8f0e2fb30505"
+    },
+    {
+      "path": "./user-behavior.js",
+      "hash": "d114a437e1df882c8778c99f97f67f9585c062513e8340a8eac3f21833447aca"
+    },
+    {
+      "path": "./user-inbox.js",
+      "hash": "eddb8b9f73f3f035c8f880380e62a8efe96d572e1e9915885fe7d8fab0db5860"
+    },
+    {
+      "path": "./user-presence.js",
+      "hash": "ec17aeffacb94c25a4fd756aff0f1b75dcaf57df16628f08e08bd494e28524db"
+    },
+    {
+      "path": "./user-review.js",
+      "hash": "5fc88c24db1b8a0c4b4caf35d3d2177eafebff123d45afe0e62f5f9ede20faa1"
+    },
+    {
+      "path": "./user-takeover.js",
+      "hash": "973a7f095cd846d825cf6c2fd0a14fe812e29ef82942e51fea32015db2a08460"
+    },
+    {
+      "path": "./util.js",
+      "hash": "22b0e1085aa49bcedf817b7fd3bc6a4113b040a31da7717488678eecba7c51a9"
+    },
+    {
+      "path": "./video-frames.js",
+      "hash": "584e14de91dfda66d4f2f40b0ee3d6b2f1a64f3dd0314a12fe2b302d3fa880b3"
+    },
+    {
+      "path": "./voice-activity.js",
+      "hash": "e9ec7d5f04d58af3b70cb8ee9ba3da9aa993ad1ceb5897338b1b0c8618f9d971"
+    },
+    {
+      "path": "./voice-audio.js",
+      "hash": "0653777ac45d55c0b0821b6e3431d15e17c8bc9c81ee3f9f8f2ba5da931c0533"
+    },
+    {
+      "path": "./voice-bot.js",
+      "hash": "5d1aa45c097fbfb4b78a6eec80f13309a5c0a56625c8850755f6f68458229d67"
+    },
+    {
+      "path": "./voice-input.js",
+      "hash": "96ef6e1eea64681abf104c13eda16d079e62340a2520077a15fbeb527b8d5c1c"
+    },
+    {
+      "path": "./voice-messages.js",
+      "hash": "bb363455241ad1aa1b491312c551a85d72224f447b4365d582b77230bb8f92fe"
+    },
+    {
+      "path": "./voice-mixer.js",
+      "hash": "d02fce0b8cc2a09340c15088d3f39c6c8e05a9ddd9c64e90034e9cab7eff8614"
+    },
+    {
+      "path": "./voice-overview.js",
+      "hash": "adebb81218902fd62f218ee8d26fa7faafff5353eead72fbc53859d816d93b96"
+    },
+    {
+      "path": "./voice-receive.js",
+      "hash": "ce76f478b5502a8ca43d1f293495d7b278bfce1d662f5d02e6d67d4fc39f7cf4"
+    },
+    {
+      "path": "./voice-stream.js",
+      "hash": "db289c85f7463139c1771c5d8585b2e26f6ec337599ae362c69a75a4b3d34861"
+    },
+    {
+      "path": "./voice-user.js",
+      "hash": "66f2da642625b64e2e813ffd7d5673b94cb3ad23748f6192eb739bdbbeb0cb3b"
+    },
+    {
+      "path": "./voice.js",
+      "hash": "941bb72139e79f9123deb034d3361a753335f28c5c651b4ba9eca8ec780eb6ad"
+    },
+    {
+      "path": "./ytdlp/installer.js",
+      "hash": "e6ed4b08f85d3fcbe52b1eb73936a482e9ca3f381268c870f3737f4146c060a7"
+    },
+    {
+      "path": "./ytdlp/public-proxy.js",
+      "hash": "1c19c9328c83f3bfa66c9fd9b92f2bc3155b0088614d738c381929d66d9b5fc6"
+    },
+    {
+      "path": "./ytdlp/runner.js",
+      "hash": "8741291f18226a469756da49db4e179bfbcc5342da5ce24f8b08ba2d340df984"
+    },
+    {
+      "path": "./ytdlp/source-url.js",
+      "hash": "8943128bf6c19b3a0562f22fa60b8a50068d017e049172172949fd1cbaab5b85"
+    },
+    {
+      "path": "./ytdlp/video-tools.js",
+      "hash": "d155ff3adb3783eaa34d654b2ea1e0f937069ea3d12e7ebb6956780c979abe6f"
+    },
+    {
+      "path": "./ytdlp/youtube-music.js",
+      "hash": "fa82094f831f1042960fa9bfbf0f46eff66fdfc4779e418f5bcbcb23807624cd"
+    },
+    {
+      "path": "../bridge/conversation_ops.py",
+      "hash": "043b4533223f331ab4f8e02cec77fbfcb993f04ca8a9941d87aa11a2e36164e0"
+    },
+    {
+      "path": "../bridge/gif_frames.py",
+      "hash": "cf10d336a3a360f11452f91a4508001cc7d1f708eb31d8427388ddd9fff080ee"
+    },
+    {
+      "path": "../bridge/lottie_frames.py",
+      "hash": "1a6296547c72ae31bc87baece9e82f82887655310870f79481b3dae59a84fb32"
+    },
+    {
+      "path": "../bridge/voice_output.py",
+      "hash": "729708124346b192c6524abf50f621a3591f3163df96a95ab271e9c9937d0201"
+    },
+    {
+      "path": "../bridge/voice_pcm.py",
+      "hash": "e8e1fda31d37de7cb09a4a53da3dc5254b7f12a24b54ea586b6cd4111676c437"
+    },
+    {
+      "path": "../bridge/voice_receive.py",
+      "hash": "bc016a771e2ceb5ea456c5a0c9fa82f122ad4d8279158a847e287e19e54a0a1b"
+    },
+    {
+      "path": "../bridge/worker.py",
+      "hash": "ac5192f5a698e7e0ab70a6797dd02c6b296c0f8ce527970212145d2f6264b07f"
+    }
+  ],
+  "digest": "2e3923a0d189771e164609ecdbfdfe265c2e5234844579b5b3700267ad481799"
+}

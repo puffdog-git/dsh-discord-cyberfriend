@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {BotTransport} from '../src/transport/bot.js';
+test('Bot official sticker search finds Lottie by tags, caches packs, and keeps guild matches first',async()=>{
+ const t=new BotTransport(),calls=[];t.rest=async(_method,p)=>{calls.push(p);if(p.startsWith('/channels/'))return{guild_id:'current'};if(p.startsWith('/guilds/'))return[{id:'guild',name:'wave',available:true}];assert.equal(p,'/sticker-packs');return{sticker_packs:[{stickers:[{id:'750000000000000001',type:1,name:'Wave',description:'Wumpus',tags:'hello,greeting',format_type:3},{id:'999999999999999999',type:2,name:'bad',format_type:3}]}]};};
+ const first=await t.searchStickers('wave',{channelId:'room'});assert.deepEqual(first.stickers.map(s=>s.id),['guild','750000000000000001']);assert.equal(first.stickers[1].formatType,3);
+ const second=await t.searchStickers('greeting',{channelId:'room'});assert.deepEqual(second.stickers.map(s=>s.id),['750000000000000001']);assert.equal(calls.filter(p=>p==='/sticker-packs').length,1);
+});
+test('Bot official catalog failure preserves guild stickers and exposes a warning',async()=>{const t=new BotTransport();t.rest=async(_m,p)=>{if(p.startsWith('/channels/'))return{guild_id:'current'};if(p.startsWith('/guilds/'))return[{id:'guild',name:'wave',available:true}];throw Error('unavailable');};const r=await t.searchStickers('wave',{channelId:'room'});assert.equal(r.ok,true);assert.equal(r.stickers[0].id,'guild');assert.match(r.warning,/官方貼圖包/);});

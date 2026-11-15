@@ -1,0 +1,21 @@
+import {DiaryAgent} from '../src/diary-agent.js';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {TokenBudget,normalizeUsage,registerTokenBudget,tokenBudgetFor} from '../src/token-budget.js';
+import {callHostLlm,generateReply} from '../src/llm.js';
+test('budget reserves concurrent calls, reports actual usage separately and blocks only this plugin context',async()=>{const root=await mkdtemp(join(tmpdir(),'budget-'));const cfg={tokenBudgetEnabled:true,tokenBudgetMode:'block',tokenDailyLimit:100};const b=new TokenBudget({file:join(root,'b.json'),getConfig:()=>cfg});let release,started;const ready=new Promise(r=>started=r);try{await b.init();const first=b.run('test',{user:'x',maxTokens:64},async()=>{started();await new Promise(r=>release=r);return {ok:true,text:'ok',usage:{prompt_tokens:10,completion_tokens:10,total_tokens:20}};});await ready;const blocked=await b.run('test',{user:'x',maxTokens:64},()=>assert.fail());assert.equal(blocked.code,'TOKEN_BUDGET');release();await first;assert.equal(b.status().today.reportedTokens,20);assert.equal(b.status().reserved,0);
+const a={},other={};const off=registerTokenBudget(a,b);assert.equal(tokenBudgetFor(other),undefined);cfg.tokenDailyLimit=1;let calls=0;a.get=()=>({prepareCall:()=>{calls++;}});const r=await callHostLlm(a,{provider:'fixture',model:'m'},{user:'x'});assert.equal(r.code,'TOKEN_BUDGET');assert.equal(calls,0);
+const custom=await generateReply(a,{llmMode:'custom'},{user:'x'});assert.equal(custom.code,'TOKEN_BUDGET');off();assert.equal(tokenBudgetFor(a),undefined);
+}finally{release?.();await rm(root,{recursive:true,force:true});}});
+test('estimated interrupted/delegated usage persists and daily periods follow UTC+8',async()=>{const root=await mkdtemp(join(tmpdir(),'budget-time-'));let now=Date.UTC(2026,10,11,16,1);const options={file:join(root,'b.json'),getConfig:()=>({}),now:()=>now};const b=new TokenBudget(options);try{await b.init();await b.run('external',{user:'x',maxTokens:100,opaque:true},async()=>({ok:true,text:'receipt'}));assert.equal(b.status().day,'2026-11-12');assert.ok(b.status().today.estimatedTokens>=100);const {day,month}=b.periods();b.data.pending.crashed={id:'crashed',day,month,reserved:50,category:'crashed'};await b.save();const restored=new TokenBudget(options);await restored.init();assert.equal(restored.data.calls.at(-1).status,'interrupted');assert.ok(restored.status().today.estimatedTokens>=150);now+=86400000;assert.equal(restored.status().today.totalTokens,0);assert.ok(restored.status().thisMonth.totalTokens>=150);assert.equal(normalizeUsage({prompt_tokens:100,completion_tokens:20,total_tokens:120,prompt_tokens_details:{cached_tokens:80}}).totalTokens,120);}finally{await rm(root,{recursive:true,force:true});}});
+
+test('budget also gates external memory writer work before invoking the delegate',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'delegate-budget-'));const ctx={},cfg={tokenBudgetEnabled:true,tokenBudgetMode:'block',tokenDailyLimit:1};const budget=new TokenBudget({file:join(root,'b.json'),getConfig:()=>cfg});await budget.init();const off=registerTokenBudget(ctx,budget);let called=0;try{const diary=new DiaryAgent({ctx,getConfig:()=>cfg});await assert.rejects(diary.invokeWriter(async()=>{called++;return {status:'stored'};},{args:{content:'fixture'}}),/預算/);assert.equal(called,0);}finally{off();await rm(root,{recursive:true,force:true});}
+});
+
+test('native Agent followup model rounds reserve more budget and stop before a second over-budget request',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'native-budget-'));const cfg={tokenBudgetEnabled:true,tokenBudgetMode:'block',tokenDailyLimit:140};const b=new TokenBudget({file:join(root,'b.json'),getConfig:()=>cfg});try{await b.init();const result=await b.run('native-reply',{user:'x',maxTokens:64},async r=>{await b.guardNative(r.id,{messages:[{role:'user',content:'x'}],maxTokens:64});assert.equal(r.steps,1);await assert.rejects(b.guardNative(r.id,{messages:[{role:'user',content:'x'}],maxTokens:64}),/停止後續/);return {ok:false,code:'TOKEN_BUDGET'};});assert.equal(result.ok,false);assert.ok(b.status().today.estimatedTokens>0);assert.equal(b.status().reserved,0);}finally{await rm(root,{recursive:true,force:true});}
+});

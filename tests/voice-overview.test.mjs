@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createVoiceOverview} from '../src/voice-overview.js';
+test('overview projects actual voice mappings and separately accounts recent translation without generating audio',async()=>{
+ let sent;const overview=createVoiceOverview({ctx:{get:n=>n==='dshTts'?{resolveVoice:async()=>({provider:'edge',voice:'ja-JP-NanamiNeural',profileName:'小葵',spokenLanguage:'ja'})}:n==='webServer'?{getOrigin:()=> 'http://127.0.0.1:1234'}:null},voice:{tts:{resolveVoice:async()=>({provider:'edge',voice:'ja-JP-NanamiNeural',profileName:'小葵',spokenLanguage:'ja'})},status:()=>({usage:{characters:1000,playedMs:100}})},sessionBridge:{list:()=>[{sessionId:'s',title:'角色對話'}]},tokenBudget:{status:()=>({today:{totalTokens:1000},calls:[{category:'speech-translation',totalTokens:20}]})},getConfig:()=>({voiceTtsCostPerMillion:10,voiceLlmCostPerMillion:1}),fetchImpl:async(url,opts)=>{sent={url:String(url),body:JSON.parse(opts.body)};return Response.json({result:{ok:true,value:{bound:true,libraryId:null,effective:{useLibrary:true}}}})}});
+ const d=await overview.snapshot({headers:{}},{withMemory:true});assert.equal(d.bindings[0].voice.profileName,'小葵');assert.equal(d.bindings[0].memory.status,'missing-library');assert.equal(d.usage.translation.recentTokens,20);assert.equal(d.usage.estimatedCost.todayTts,.01);assert.equal(sent.body.method,'diagnoseSession');assert.equal(sent.body.payload.sessionId,'s')
+});

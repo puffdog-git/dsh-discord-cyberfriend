@@ -1,0 +1,23 @@
+# ============================================================================
+# Discord-cyberfriend（Discord 賽博群友）bundle patch；套件 ID 仍為 dsh-discord-cyberfriend
+# ============================================================================
+# 安裝方式（擇一）：
+#   dsh plugin --profile <profile> add link:<本目錄絕對路徑>
+#   或手動把本套件 link 進 profile 的 node_modules 後，在 profile 的
+#   cordis.patch.yml 加入下面同樣的 insert 區塊。
+#
+# 這個 row 只負責「主機端」的 plugin（收集訊息、回覆、GIF、日誌、REST 路由）。
+# 前端 UI 由同一個套件的 client.js 提供，會自動掛進「設定 → Discord 賽博群友」。
+# ============================================================================
+- insert:
+    - id: discord-cyberfriend
+      name: dsh-discord-cyberfriend
+      config:
+        enabled: true
+        primaryTransport: bot
+        userEnabled: false
+        userAutoStart: false
+        botEnabled: true
+        userReceiveOnly: true
+        userAutoReply: false
+        dryRun: true
