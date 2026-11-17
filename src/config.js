@@ -1318,6 +1318,7 @@ FIELDS.push(
   { key: 'voiceReceiveUserIds', section: 'voice', type: 'tags', default: [] },
   { key: 'voiceReceiveAutoReply', section: 'voice', type: 'boolean', default: false },
   { key: 'voiceReplyTextEnabled', section: 'voice', type: 'boolean', default: true },
+  { key: 'voiceMusicAutoJoin', section: 'voice', type: 'boolean', default: false },
   { key: 'voiceInterruptOnSpeech', section: 'voice', type: 'boolean', default: true },
   {
     key: 'voiceInterruptMode',
@@ -1375,6 +1376,7 @@ FIELDS.push(
     options: [opt('pause', '暫停後接續'), opt('duck', 'Bot 雙音軌壓低／漸變')],
   },
   { key: 'voiceMusicPauseReceiveEnabled', section: 'voice', type: 'boolean', default: true },
+  { key: 'voiceMusicMuteSpeechEnabled', section: 'voice', type: 'boolean', default: false },
   { key: 'voiceMusicDuckPercent', section: 'voice', type: 'number', default: 20, min: 0, max: 100 },
   { key: 'musicYtdlpPath', section: 'voice', type: 'string', default: '' },
   { key: 'voiceStreaming', section: 'voice', type: 'boolean', default: true },

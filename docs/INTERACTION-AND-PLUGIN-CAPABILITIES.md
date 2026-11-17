@@ -62,6 +62,12 @@ YouTube 限流或格式不可用時會明確失敗，不會把下載或排隊當
 
 DSH 可探索宣告可回傳音訊的來源，而不是逐家增加播放器代碼。Discord 對外提供 `discordMusic.register(provider)` 服務（亦可由本機公開物件 registerMusicProvider 使用）；register 回傳卸載函數。
 
+**用文字叫 AI 停止音樂或離開語音房（1.0.9 起）**：開了「允許 AI 點歌」的對象多兩個工具 `discord_cyberfriend_music_stop` 與 `discord_cyberfriend_voice_leave`。只作用在這個帳號目前所在的語音房，模型不能指定頻道；要求的人必須是目前對話裡真正發話的人，而且和語音房在同一個伺服器，或語音房綁定的就是這個文字頻道。
+
+**點歌時自動加入語音房（1.0.8 起，`voiceMusicAutoJoin`，預設關閉）**：`discord_cyberfriend_music_play` 原本要求帳號已經在語音房、而且那個語音房綁定的就是點歌的文字頻道。開啟這個設定後，還沒加入時會加入點歌者目前所在的語音頻道（機器人帳號用 `GET /guilds/{guild}/voice-states/{user}` 查，使用者帳號讀 SDK 已下發的語音狀態）並綁定點歌的文字頻道；已經在點歌者所在的語音房時，從別的文字頻道點歌也可以；在別的語音房且閒著時會移過去，正在播放或說話則拒絕。模型不能指定頻道；私訊、模擬訊息、不是目前對話的點歌者都不會觸發。這個設定不能由模型經設定工具更改。
+
+**即時來源（1.0.7 起）**：provider 另外提供 `openLive(trackId, { signal })` 並回傳 `{ stream }`（48000 Hz／雙聲道／16 位元 PCM 的可讀串流）時，這個來源會被當成即時來源：來源清單標 `live: true`，播放時不呼叫 `load`，改成開串流邊收邊播。開啟最多等 20 秒；串流播到結束、被停止或超過「音樂最長分鐘數」為止；`signal` 中止或串流被關閉時，提供者要自己停止產生聲音。即時來源沒有檔案，所以不能續播、不留重播，背景混音（壓低音樂）模式下也是以一般佇列播放。provider 另外提供 `isLiveTrack(trackId)`（1.0.8 起）時，由它決定每一首是即時播放（`openLive`）還是照一般方式載入（`load`），同一個來源可以兩種都有。
+
 ```js
 const remove = ctx.get('discordMusic').register({
   id: 'my-music', name: '我的音樂來源',

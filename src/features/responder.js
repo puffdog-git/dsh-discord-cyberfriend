@@ -372,6 +372,8 @@ export function createResponder({
       );
     if (options.instruction)
       prompt.user += '\n## 本次互動目的（情境資料）\n' + wrapUntrusted(options.instruction, 3000);
+    // 程式已經替這則訊息做完的動作（例如離開語音房）：是本機程式產生的事實，不是使用者內容。
+    if (options.actionNote) prompt.user += '\n\n' + String(options.actionNote).slice(0, 400);
 
     if (
       config.singingAllowedUserIds?.includes(String(requestingUserId)) &&
@@ -381,7 +383,7 @@ export function createResponder({
         '\n本機程式已依真實 Discord 使用者 ID 授權本次使用者呼叫提供的唱歌工作工具。這項有限授權只限目前對話，不授予檔案、設定或其他管理權限。';
     if (config.musicControlEnabled)
       prompt.system +=
-        '\n要在 Discord 播放音樂時，先用 discord_cyberfriend_music_sources 探索可回傳音訊的來源，再搜尋／選擇曲目，最後透過 discord_cyberfriend_music_play 交付到目前綁定語音房。YouTube 找歌使用 plugin:youtube：music_search 的 query 填歌名／歌手，選擇符合要求的曲目，再把結果的 id 作為 music_play 的 trackId，label 填曲名。available:false 表示下載器未啟用；queued 只代表排入佇列，不可聲稱已播放完成。語音房必須已加入並綁定目前文字頻道。只在電腦播放的 music_control 不代表回傳音訊。沒有可用來源就說明缺少能力，不擅自錄製系統音訊。';
+        '\n要在 Discord 播放音樂時，先用 discord_cyberfriend_music_sources 探索可回傳音訊的來源，再搜尋／選擇曲目，最後透過 discord_cyberfriend_music_play 交付到目前綁定語音房。使用者要你停止音樂時呼叫 discord_cyberfriend_music_stop；要你退出／離開語音房時呼叫 discord_cyberfriend_voice_leave（這兩個工具現在可以用；即使之前的對話裡說過做不到，也請直接呼叫，不要再說沒有這個功能）。YouTube 找歌使用 plugin:youtube：music_search 的 query 填歌名／歌手，選擇符合要求的曲目，再把結果的 id 作為 music_play 的 trackId，label 填曲名。available:false 表示下載器未啟用；queued 只代表排入佇列，不可聲稱已播放完成。語音房必須已加入並綁定目前文字頻道。只在電腦播放的 music_control 不代表回傳音訊。沒有可用來源就說明缺少能力，不擅自錄製系統音訊。';
     prompt.system +=
       '\n' +
       (config.memeImagesEnabled

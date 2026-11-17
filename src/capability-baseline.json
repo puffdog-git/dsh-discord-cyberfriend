@@ -1,7 +1,7 @@
 {
   "schema": "discord.capability-contract-baseline",
   "version": 1,
-  "at": 1794763450303,
+  "at": 1794927169347,
   "groups": [
     "tts",
     "stt",
@@ -13,7 +13,7 @@
     "mood",
     "voiceDelivery"
   ],
-  "tests": 607,
+  "tests": 638,
   "scope": "Only this plugin adapter contracts with isolated fixtures; no external account or backend certification.",
   "files": [
     {
@@ -58,7 +58,7 @@
     },
     {
       "path": "./config.js",
-      "hash": "2cb10517d20f8db04b8e622556d764da12463ae3393c08905f2661fea049e8cf"
+      "hash": "cecddf5802b0db2bad429c985ffd1910ed9bcb5f8a99190c1db425a9eff1f554"
     },
     {
       "path": "./conversation-desk.js",
@@ -106,7 +106,7 @@
     },
     {
       "path": "./features/responder.js",
-      "hash": "e6c9493e7cfef5450f737d50d616b2dc045d01fa3833b2c8e20e417e99e53510"
+      "hash": "d2d5377e8801472f6d4a8180e09361ba6f1bc47e13e81c0fa299415902d7f7dd"
     },
     {
       "path": "./features/slang-preview.js",
@@ -130,7 +130,7 @@
     },
     {
       "path": "./field-text.js",
-      "hash": "3f92b3ee6d867c15f553760ab37939e7ec191afc801f381dd73a56650e93e9a4"
+      "hash": "31ed47768eec7e729fd0ecc79be5c845cca63558a61428bc8c70861253ae2d86"
     },
     {
       "path": "./gif.js",
@@ -150,7 +150,7 @@
     },
     {
       "path": "./index.js",
-      "hash": "185b7b216b812adb8e5dac4504ca8d1c13f2dbd231e7d81b724c662d2499cc29"
+      "hash": "3307dc1f98bf6b12f9b5a39e293dc3c27abf51b8e49cb6cdfe48d94476006b84"
     },
     {
       "path": "./knowledge-tools.js",
@@ -210,11 +210,11 @@
     },
     {
       "path": "./music-providers.js",
-      "hash": "b869419810d7f2b1f747c83d95de8cab76931d4f4f4bed024665bda897c286d1"
+      "hash": "aea84d1cb85ae7d98f059b524c22cd05f7f78f18f380a4cc167299f2b340eb8e"
     },
     {
       "path": "./music-tools.js",
-      "hash": "c693b59c8d3287d2679b32ed7ea0593476ce02ec7247a33d8d17c84e737f172b"
+      "hash": "efa9b3bfacf853afa83eaa8815e26b2199080245b3716c1a11e22f924142b45c"
     },
     {
       "path": "./music-youtube.js",
@@ -242,7 +242,7 @@
     },
     {
       "path": "./security.js",
-      "hash": "0ffca6f820fd6b1df10f09d6a43e5df790d5b93650fdaa34a45bc8e7a3b845b5"
+      "hash": "d2b5c5904d8970ae1ff24f00a1837725fe8bf091b95098e66054ad1274506d32"
     },
     {
       "path": "./session-bridge.js",
@@ -357,6 +357,10 @@
       "hash": "5d1aa45c097fbfb4b78a6eec80f13309a5c0a56625c8850755f6f68458229d67"
     },
     {
+      "path": "./voice-commands.js",
+      "hash": "b5ea079b66f21938a2676070f8bb11a2e17dd1bd95998ea4c7cc4c22e6979278"
+    },
+    {
       "path": "./voice-input.js",
       "hash": "96ef6e1eea64681abf104c13eda16d079e62340a2520077a15fbeb527b8d5c1c"
     },
@@ -378,7 +382,7 @@
     },
     {
       "path": "./voice-stream.js",
-      "hash": "db289c85f7463139c1771c5d8585b2e26f6ec337599ae362c69a75a4b3d34861"
+      "hash": "e99529fc699fe4cd3496646f3bebfaec0e08fdff191b0b25087a6c5de0e0f67b"
     },
     {
       "path": "./voice-user.js",
@@ -386,7 +390,7 @@
     },
     {
       "path": "./voice.js",
-      "hash": "941bb72139e79f9123deb034d3361a753335f28c5c651b4ba9eca8ec780eb6ad"
+      "hash": "63a0a42eb52a5d1ec8556b32ba64532df81295eb64f510e5fcc775bf5fa33996"
     },
     {
       "path": "./ytdlp/installer.js",
@@ -438,8 +442,8 @@
     },
     {
       "path": "../bridge/worker.py",
-      "hash": "ac5192f5a698e7e0ab70a6797dd02c6b296c0f8ce527970212145d2f6264b07f"
+      "hash": "8779405db91d3f6a5b45979c666e37bafe1bea115c0ce01ad81377c12534f707"
     }
   ],
-  "digest": "3cec228a0e7ad3471e6852d17998147f5683c3686345aedef41e94ef02932366"
+  "digest": "ed7010853c6f26ec0fcdfbed8d45bac7e67aee0160bd46fd9878b0f0b86db814"
 }

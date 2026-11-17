@@ -75,6 +75,8 @@ export function allowedReplyTools(config, message, actorId) {
       'discord_cyberfriend_music_sources',
       'discord_cyberfriend_music_search',
       'discord_cyberfriend_music_play',
+      'discord_cyberfriend_music_stop',
+      'discord_cyberfriend_voice_leave',
     );
   if (config.webLookupEnabled) allowed.push('multi_search');
   if (config.memeLookupEnabled) allowed.push('search_meme_wiki');
@@ -146,7 +148,7 @@ const TOOL_PROTECTED_EXACT = new Set([
   'proactiveEnabled',
 ]);
 const TOOL_PROTECTED_PATTERN =
-  /(Token|ApiKey|Secret|Password)$|(UserIds?|GuildIds?|ChannelIds?|DestinationIds?)$|(ProxyUrl|BaseUrl|ApiBase)$|(^|_)(knowledgeLookupEnabled|webLookupEnabled|memeLookupEnabled|musicControlEnabled|memeImagesEnabled|replyDeliveryMode)$|^tokenBudget|^token(Daily|Monthly)Limit$|^channelLookupEnabled$|^voice(Enabled|ReceiveEnabled|InputEnabled)$/;
+  /(Token|ApiKey|Secret|Password)$|(UserIds?|GuildIds?|ChannelIds?|DestinationIds?)$|(ProxyUrl|BaseUrl|ApiBase)$|(^|_)(knowledgeLookupEnabled|webLookupEnabled|memeLookupEnabled|musicControlEnabled|memeImagesEnabled|replyDeliveryMode)$|^tokenBudget|^token(Daily|Monthly)Limit$|^channelLookupEnabled$|^voice(Enabled|ReceiveEnabled|InputEnabled|MusicAutoJoin)$/;
 export function toolConfigProtected(key) {
   key = String(key);
   return TOOL_PROTECTED_EXACT.has(key) || TOOL_PROTECTED_PATTERN.test(key);

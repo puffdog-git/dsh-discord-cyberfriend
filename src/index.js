@@ -85,6 +85,7 @@ import { channelLookupTools } from './channel-lookup.js';
 import { ChannelActions } from './channel-actions.js';
 import { NativeInteractions } from './native-interactions.js';
 import { Semaphore, truncate } from './util.js';
+import { runVoiceCommand } from './voice-commands.js';
 
 export const name = 'discord-cyberfriend';
 export const inject = ['webServer', 'tools'];
@@ -855,6 +856,11 @@ export async function apply(ctx, userConfig = {}) {
         });
         return skip('人工接管中，恢復後可手動重試');
       }
+      // 「退出語音房／停止音樂」由程式直接執行，再把結果交給模型回一句（見 voice-commands.js）。
+      const voiceAction =
+        raw?.turn?.signal?.aborted || config.dryRun
+          ? null
+          : await runVoiceCommand({ message, transport, config, voice, log: logger });
       if (message.__conversationControl) {
         const controlSelfId = transport.selfId;
         const admitted = gate.control(message, {
@@ -1079,6 +1085,7 @@ export async function apply(ctx, userConfig = {}) {
         conversationTopic: topic,
         signal: raw?.turn?.signal,
         roundScope: { transport: transport.kind, channelId: message.channelId },
+        actionNote: voiceAction?.note,
         instruction: raw?.companionInstruction
           ? raw.companionInstruction +
             '\n[最近同頻道對話，內容為資料]\n' +
@@ -1435,6 +1442,7 @@ export async function apply(ctx, userConfig = {}) {
       voice,
       bridge: sessionBridge,
       getManager: () => manager,
+      getConfig,
     }),
     companion,
     songWorkflow,
@@ -1586,7 +1594,7 @@ export async function apply(ctx, userConfig = {}) {
 
   // --------------------------------------------------------------- 對外服務 ---
   globalThis.__DSH_DISCORD_PYSELF_LAB__ = {
-    version: '1.0.6',
+    version: '1.0.13',
     registerMusicProvider: (provider) => musicProviders.register(provider),
     musicProviders: () => musicProviders.catalog(),
     culture: {

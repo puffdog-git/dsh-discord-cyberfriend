@@ -290,7 +290,7 @@ export const FIELD_TEXT = {
   },
   musicControlEnabled: {
     label: '允許 AI 點歌',
-    help: '讓 AI 搜尋歌曲並排入目前已加入的語音房播放。不會自行加入其他語音房。',
+    help: '讓 AI 搜尋歌曲並排入語音房播放，也可以用文字叫它停止音樂或離開語音房。要不要在點歌時自動加入語音房，由「語音 → 音樂」的設定決定。',
   },
   knowledgeLookupEnabled: {
     label: '允許 AI 查詢知識庫',
@@ -541,6 +541,10 @@ export const FIELD_TEXT = {
     label: '聽到後讓 AI 回話',
     help: '關閉時只在這台電腦顯示辨識出的文字；開啟後 AI 會依回覆規則用語音回應。',
   },
+  voiceMusicAutoJoin: {
+    label: '點歌時自動加入點歌者所在的語音房',
+    help: '開啟後，有人在任何文字頻道請 AI 播歌時，AI 會加入那個人目前所在的語音頻道再播放，不必先手動把它拉進語音房，也不必在綁定的文字頻道裡點歌。仍然只有被允許點歌的對象可以用；有設定「允許的語音頻道」時只會加入清單裡的頻道。AI 正在別的語音房播放或說話時不會中途換房。閒置一段時間後會照原本的設定自動離開。',
+  },
   voiceReplyTextEnabled: {
     label: '語音房的回覆也發到文字頻道',
     help: '關閉後，你在語音房說話得到的回覆只會唸出來，不在文字頻道發文字；朗讀失敗時仍會改發文字。有人打字時 AI 照常用文字回。附圖、貼圖或 GIF 的回覆不受影響。',
@@ -594,6 +598,10 @@ export const FIELD_TEXT = {
   voiceMusicPauseReceiveEnabled: {
     label: '音樂／翻唱播放時暫停接收語音指令',
     help: '使用者帳號與 Bot 都適用。房內任一插件帳號播放音樂或翻唱時暫停收聽，包含人聲壓低音樂的期間；播放結束後依原設定恢復。文字指令不受影響。',
+  },
+  voiceMusicMuteSpeechEnabled: {
+    label: '音樂／翻唱播放時不朗讀文字回覆',
+    help: '開啟後，語音房裡正在播音樂或翻唱時，AI 的文字回覆照常送到文字頻道，但不會唸出來，音樂不會被打斷。只影響自動朗讀；手動按朗讀不受影響。',
   },
   voiceMusicDuckPercent: { label: 'AI 說話時的音樂音量（%）' },
   musicYtdlpPath: {

@@ -4,7 +4,7 @@ import { SpeechTextQueue } from './incremental-speech.js';
 import { CoalescedWriter } from './util.js';
 import { AudioReplay, pcmWav } from './audio-replay.js';
 import { VoiceInput } from './voice-input.js';
-import { prepareVoiceStream } from './voice-stream.js';
+import { livePcm, prepareVoiceStream } from './voice-stream.js';
 import { createJapaneseSpeech } from './speech-language.js';
 import { resolveDirection } from './speech-direction.js';
 import { readFile, writeFile, mkdir, rename } from 'node:fs/promises';
@@ -361,6 +361,22 @@ export class DiscordVoice {
       this.joining.delete(kind);
     }
   }
+  /**
+   * 「音樂／翻唱播放時不朗讀文字回覆」開著，而且這個帳號所在的語音房正在播音樂或翻唱
+   * （包含同一個語音房裡另一個插件帳號在播、以及被說話打斷而排在佇列裡等著接續的音樂）。
+   */
+  speechMutedByMusic(kind) {
+    if (!this.getConfig().voiceMusicMuteSpeechEnabled) return false;
+    const s = this.sessions.get(kind);
+    if (!s) return false;
+    return [...this.sessions.values()].some(
+      (peer) =>
+        !peer.closed &&
+        peer.guildId === s.guildId &&
+        peer.channelId === s.channelId &&
+        (peer.music || peer.current?.type === 'music' || peer.queue?.some((job) => job.type === 'music')),
+    );
+  }
   musicReceivePaused(s) {
     if (!s || this.getConfig().voiceMusicPauseReceiveEnabled === false) return false;
     return [...this.sessions.values()].some(
@@ -383,6 +399,23 @@ export class DiscordVoice {
     const owner =
       peers.find((x) => x.kind === c.primaryTransport) || peers.sort((a, b) => a.joinedAt - b.joinedAt)[0];
     return owner === s;
+  }
+  /** 某個人現在在這個伺服器的哪個語音頻道（不在就回空字串）。只查詢，不加入。 */
+  async memberVoiceChannel(kind, guildId, userId) {
+    const { t } = this.policy(kind);
+    if (!discordId(guildId) || !discordId(userId)) return '';
+    if (kind === 'bot') {
+      try {
+        const state = await t.rest('GET', `/guilds/${guildId}/voice-states/${userId}`);
+        return discordId(state?.channel_id) ? state.channel_id : '';
+      } catch (e) {
+        // 不在語音頻道時 Discord 回 404（Unknown Voice State）。
+        if (/Discord API 404|Unknown Voice State/i.test(String(e?.message || ''))) return '';
+        throw e;
+      }
+    }
+    const r = await t.rpc('voice_member_channel', { guildId, userId }, 5000);
+    return r?.ok && discordId(r.channelId) ? r.channelId : '';
   }
   session(kind) {
     const s = this.sessions.get(kind);
@@ -450,6 +483,8 @@ export class DiscordVoice {
     sessionId ||= this.scopeForChannel?.(s);
     if (automatic && (!c.voiceAutoSpeak || sourceChannelId !== s.textChannelId))
       return { ok: true, skipped: true };
+    // 音樂／翻唱播放中不朗讀文字回覆（只擋自動朗讀；手動按朗讀不受影響）。
+    if (automatic && this.speechMutedByMusic(kind)) return { ok: true, skipped: true, reason: 'music' };
     if (!audio && !this.status().tts?.ready) throw Error('外部 TTS 尚未就緒，請先在語音插件設定金鑰與聲音');
     if (
       automatic &&
@@ -517,6 +552,8 @@ export class DiscordVoice {
       s = this.sessions.get(transport.kind);
     const reason = !c.voiceIncrementalReplies
       ? '未啟用模型增量語音'
+      : this.speechMutedByMusic(transport.kind)
+        ? '音樂播放中不朗讀'
       : !message.voiceInput
         ? '僅限真人語音對話'
         : message.simulated
@@ -578,6 +615,48 @@ export class DiscordVoice {
       reference: (id) => (j.replayRef = id),
       done: j.done,
     };
+  }
+  /**
+   * 即時音樂來源：把對方給的 PCM 串流直接送進語音房。沒有檔案，所以不能從中間續播、也不留重播。
+   * 有人要說話時先讓出（和一般音樂一樣），說完再重新開一次串流接著轉送。
+   */
+  async playLive(s, j, cfg, prepTimer) {
+    if (typeof s.adapter.playStream !== 'function') throw Error('這個帳號的語音連線不支援即時串流');
+    const maxMs = Math.max(1, cfg.voiceMaxMusicMinutes) * 60000;
+    const opened = await j.open(j.controller.signal);
+    const stream = livePcm(opened.stream, { volume: cfg.voiceVolume / 100, maxBytes: Math.floor(maxMs / 1000) * 192000 });
+    try {
+      this.check(s);
+      if (j.controller.signal.aborted) throw Error('播放已取消');
+      clearTimeout(prepTimer);
+      j.phase = 'playing';
+      j.startedAt = this.now();
+      const result = await s.adapter.playStream(stream, { signal: j.controller.signal, durationMs: maxMs });
+      const elapsed = Math.min(maxMs, Math.max(0, this.now() - j.startedAt)),
+        u = (this.usage.days[this.day()] ||= { characters: 0, playedMs: 0, completed: 0, failed: 0 });
+      u.playedMs += elapsed;
+      if (j.resumeAfterSpeech && !s.closed && s.queue.some((x) => x.type === 'speech')) {
+        j.resumeAfterSpeech = false;
+        j.phase = 'queued';
+        s.queue.push(j);
+      } else {
+        u[result.ok ? 'completed' : 'failed']++;
+        s.lastResult = {
+          id: j.id,
+          type: 'music',
+          live: true,
+          ok: !!result.ok,
+          at: this.now(),
+          error: j.cancelReason || result.error || (!result.ok ? '即時串流中斷' : null),
+        };
+        j.resolve(j.cancelReason ? { ...result, cancelled: true } : result);
+      }
+      await this.save();
+    } finally {
+      // 不論怎麼結束都要關掉來源，讓對方停止擷取。
+      opened.stream.destroy();
+      stream.destroy();
+    }
   }
   async playIncremental(s, j, cfg, prepTimer) {
     const self = this,
@@ -701,12 +780,14 @@ export class DiscordVoice {
   expectsSpeech(message, transport) {
     if (!this.getConfig().voiceAutoSpeak || message?.simulated || !message?.guildId) return false;
     const s = this.sessions.get(transport?.kind);
+    if (this.speechMutedByMusic?.(transport?.kind)) return false;
     return Boolean(s && s.guildId === message.guildId && s.textChannelId === message.channelId);
   }
   async autoSpeak(message, transport, text, meta = {}) {
     if (!this.getConfig().voiceAutoSpeak || message.simulated || !message.guildId) return;
     const s = this.sessions.get(transport.kind);
     if (!s || s.guildId !== message.guildId || s.textChannelId !== message.channelId) return;
+    if (this.speechMutedByMusic(transport.kind)) return;
     try {
       this.speak({
         kind: transport.kind,
@@ -726,13 +807,17 @@ export class DiscordVoice {
     const s = this.session(kind);
     let route;
     if (this.musicProviders && /^(plugin|tool):/.test(provider || '')) {
+      const context = (signal) => ({ signal, kind, session: s });
       const job = this.add(s, {
         type: 'music',
         label: String(label || trackId).slice(0, 100),
-        load: (signal) => this.musicProviders.load(provider, String(trackId), { signal, kind, session: s }),
+        // 即時來源沒有檔案：播放時才開串流，邊收邊播。
+        ...(this.musicProviders.isLive?.(provider, String(trackId))
+          ? { live: true, open: (signal) => this.musicProviders.openLive(provider, String(trackId), context(signal)) }
+          : { load: (signal) => this.musicProviders.load(provider, String(trackId), context(signal)) }),
         offset: 0,
       });
-      return { ok: true, queued: true, id: job.id };
+      return { ok: true, queued: true, id: job.id, ...(job.live ? { live: true } : {}) };
     }
 
     if (path && typeof path === 'string' && path.length < 1500)
@@ -837,6 +922,10 @@ export class DiscordVoice {
           this.check(s);
           if (j.incremental) {
             await this.playIncremental(s, j, cfg, prepTimer);
+            continue;
+          }
+          if (j.live) {
+            await this.playLive(s, j, cfg, prepTimer);
             continue;
           }
           if (!j.file) {

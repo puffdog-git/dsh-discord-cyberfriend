@@ -144,6 +144,21 @@ class Worker:
                 self.session_task.cancel()
         self.recovery_task = asyncio.create_task(expire())
 
+    @staticmethod
+    def main_gateway(url):
+        """是不是 Discord 的主連線（gateway…discord.gg）。語音房的連線走別的主機（…discord.media）。"""
+        return (urlsplit(str(url)).hostname or '').endswith('.discord.gg')
+
+    async def open_socket(self, connect, url, **kwargs):
+        # 「5 次連接嘗試」的上限只管主連線的斷線重連。語音房的連線也經過同一個入口，
+        # 原本每進一次語音房就被算一次，而且只有主連線重新就緒時才歸零——
+        # 實機：一個晚上進出語音房幾次之後，就再也進不了語音房（ReconnectLimitError）。
+        # 語音連線有上游自己的重試，這裡不計數、不套用上限。
+        if not self.main_gateway(url):
+            return await connect(url, **kwargs)
+        emit({'event': 'gateway_connect', 'host': urlsplit(str(url)).hostname or ''})
+        return await self.connect_gateway(connect, url, **kwargs)
+
     async def connect_gateway(self, connect, url, **kwargs):
         # Finish before upstream's 60-second initial socket timeout; its recovery
         # path assumes an existing websocket when attempting session RESUME.
@@ -277,6 +292,22 @@ class Worker:
             raise ValueError('invalid_channel_id')
         return self.client.get_channel(int(channel_id)) or await self.client.fetch_channel(int(channel_id))
 
+    def member_voice_channel(self, params):
+        """某位成員目前所在的語音頻道；只讀 SDK 已下發的語音狀態，不另外發請求、不加入頻道。"""
+        guild_id, user_id = str(params.get('guildId', '')), str(params.get('userId', ''))
+        if not (guild_id.isdecimal() and user_id.isdecimal()):
+            return {'ok': False, 'error': 'invalid_id'}
+        guild = self.client.get_guild(int(guild_id))
+        if guild is None:
+            return {'ok': False, 'error': 'unknown_guild'}
+        member = guild.get_member(int(user_id))
+        state = getattr(member, 'voice', None) if member is not None else None
+        if state is None:
+            lookup = getattr(guild, '_voice_state_for', None)
+            state = lookup(int(user_id)) if callable(lookup) else None
+        channel = getattr(state, 'channel', None)
+        return {'ok': True, 'channelId': str(channel.id) if channel is not None else ''}
+
     async def list_emojis(self, params):
         """伺服器的自訂表情（給設定介面的表情選擇器）；只讀 SDK 已下發的資料，不另外發請求。"""
         raw = str(params.get('guildId', ''))
@@ -317,10 +348,7 @@ class Worker:
             original_ws_connect = self.client.http.ws_connect
 
             async def observed_ws_connect(url, **kwargs):
-                host = urlsplit(str(url)).hostname or ''
-                if host.endswith('.discord.gg'):
-                    emit({'event': 'gateway_connect', 'host': host})
-                return await self.connect_gateway(original_ws_connect, url, **kwargs)
+                return await self.open_socket(original_ws_connect, url, **kwargs)
 
             self.client.http.ws_connect = observed_ws_connect
 
@@ -447,6 +475,8 @@ class Worker:
                 self.voice_output = VoiceOutput(self)
             if method not in ('voice_status', 'voice_stop', 'voice_leave') and (not self.client or not self.client.is_ready() or self.client.is_closed()):
                 return {'ok': False, 'error': 'Python Discord 尚未就緒'}
+            if method == 'voice_member_channel':
+                return self.member_voice_channel(params)
             if method == 'voice_text_channel':
                 channel = await self.channel(params['channelId'])
                 return {'ok': str(getattr(getattr(channel, 'guild', None), 'id', '')) == params['guildId'] and str(channel.type) in ('text', 'news', 'forum', 'voice')}

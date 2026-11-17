@@ -129,6 +129,8 @@ export class MusicProviders {
         name: p.name || p.id,
         type: 'registered',
         search: typeof p.search === 'function',
+        // 即時來源：聲音是邊收邊播的串流（例如另一個插件即時轉送的聲音），沒有檔案、不能預先載入。
+        ...(typeof p.openLive === 'function' ? { live: true } : {}),
         ...(p.available ? { available: p.available() } : {}),
         boundedStream: true,
       })),
@@ -179,6 +181,55 @@ export class MusicProviders {
         provider: id,
       }))
       .filter((row) => row.id);
+  }
+  /**
+   * 這個來源（的這首歌）是不是即時播放。登記時有提供 openLive 就是即時來源；
+   * 來源另外提供 isLiveTrack(曲目 ID) 時，由它決定每一首是即時播放還是照一般方式載入
+   * （同一個來源可以有的歌即時、有的歌下載）。沒給曲目 ID 時回答「這個來源有沒有即時播放的能力」。
+   */
+  isLive(id, trackId) {
+    if (typeof id !== 'string' || !id.startsWith('plugin:')) return false;
+    const provider = this.providers.get(id.slice(7))?.provider;
+    if (typeof provider?.openLive !== 'function') return false;
+    if (trackId === undefined || typeof provider.isLiveTrack !== 'function') return true;
+    try {
+      return provider.isLiveTrack(String(trackId)) === true;
+    } catch {
+      return false;
+    }
+  }
+  /**
+   * 開啟即時來源。提供者的 openLive(trackId, { signal }) 要回傳 { stream }：
+   * 一條 48000 Hz／雙聲道／16 位元 PCM 的可讀串流；signal 中止時提供者要自己收尾。
+   * 開啟最多等 20 秒；串流本身播到結束、被停止或超過音樂時間上限為止。
+   */
+  openLive(id, trackId, context) {
+    return observeCapability(this.ctx, 'music:' + id, 'load-audio', () => this.rawOpenLive(id, trackId, context), {
+      outcome: (r) => (r?.stream ? 'passed' : 'unconfirmed'),
+    });
+  }
+  async rawOpenLive(id, trackId, context) {
+    if (typeof trackId !== 'string' || !trackId.trim() || trackId.length > 300) throw Error('需要有效曲目 ID');
+    const row = this.isLive(id, trackId) ? this.providers.get(id.slice(7)) : null;
+    if (!row) throw Error('這個音樂來源不提供即時串流，或已卸載');
+    const opening = AbortSignal.any([context.signal, AbortSignal.timeout(20000)]);
+    const pending = Promise.resolve(row.provider.openLive(trackId, { signal: context.signal }));
+    let value;
+    try {
+      value = await abortable(pending, opening);
+    } catch (e) {
+      // 等不及或被取消：之後才開好的串流要關掉，不能留著繼續擷取。
+      pending.then((late) => late?.stream?.destroy?.()).catch(() => {});
+      throw e;
+    }
+    const stream = value?.stream;
+    if (!stream || typeof stream.pipe !== 'function' || typeof stream.destroy !== 'function')
+      throw Error('即時音樂來源沒有回傳音訊串流');
+    if (this.providers.get(id.slice(7)) !== row) {
+      stream.destroy();
+      throw Error('音樂來源在開啟期間已變更');
+    }
+    return { stream };
   }
   load(id, trackId, context) {
     return observeCapability(
