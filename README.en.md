@@ -45,6 +45,18 @@ The settings screen is in Chinese (Traditional or Simplified).
 
 Cyberfriend alone can chat in text. To hear it talk, add the atelier.
 
+## 🎶 Want songs from more platforms? Add DSH-jukebox
+
+**DSH-jukebox (`dsh-jukebox`)** is by the same author. With it installed, Cyberfriend gets many more music sources:
+
+- Besides the built-in YouTube source: **YT Music, bilibili and your local music folders**.
+- **Spotify, KKBOX and Apple Music**: say "play Never Gonna Give You Up on Spotify" and the jukebox has the official player on your computer play that song in the background, relaying the sound into the voice channel live. Spotify Free works, no login needed.
+- Song, album and playlist links work too.
+- Type "stop the music" or "leave the voice room" in the channel and Cyberfriend does it.
+
+Without the jukebox, Cyberfriend still plays songs from the built-in YouTube source. Jukebox docs: [puffdog-git/dsh-jukebox](https://github.com/puffdog-git/dsh-jukebox).
+Relaying an official player's sound is Windows-only. Streaming services' terms do not allow rebroadcasting, so keep it to your own small private server.
+
 ## 🚀 Install
 
 Search for `dsh-discord-cyberfriend` in the DSH **plugin market** and press install.

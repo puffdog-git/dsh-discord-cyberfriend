@@ -43,6 +43,18 @@
 
 只裝群友也能打字聊天；想聽它講話，把工坊一起裝上就對了。
 
+## 🎶 想點更多平台的歌？搭配 DSH 點唱機
+
+**DSH 點唱機（`dsh-jukebox`）**也是同一位作者做的，裝上之後群友的點歌來源會多很多：
+
+- 除了內建的 YouTube，還能點 **YT Music、bilibili、本地音樂資料夾**的歌。
+- **Spotify、KKBOX、Apple Music**：直接說「上 KKBOX 播放周杰倫的告白氣球」，點唱機會叫你電腦上的官方播放器在背景播那首歌，並把聲音即時轉送進語音房。Spotify 免費版、不用登入也可以。
+- 貼歌曲、專輯、歌單連結也能點。
+- 在語音房裡打「停止音樂」「退出語音房」，群友就會照做。
+
+不裝點唱機，群友照樣能用內建的 YouTube 點歌。點唱機的說明在 [puffdog-git/dsh-jukebox](https://github.com/puffdog-git/dsh-jukebox)。
+轉送官方播放器的聲音只支援 Windows；各串流服務的使用條款都不允許轉播，請只在自己的私人小群使用。
+
 ## 🚀 安裝
 
 在 DSH 的**插件市集**搜尋 `dsh-discord-cyberfriend`，按安裝就好。
